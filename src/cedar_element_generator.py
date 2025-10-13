@@ -43,6 +43,7 @@ Design Decision: List/Radio vs Ontology
 
 import json
 import uuid
+import re
 from typing import Dict, Optional
 from controlled_terms_loader import ControlledTermsLoader
 
@@ -348,7 +349,7 @@ class CEDARElementGenerator:
             "oslc:modifiedBy": None,
             "schema:schemaVersion": self.cedar_version,
             "additionalProperties": False,
-            "skos:prefLabel": field_name.replace("_", " ").title(),
+            "skos:prefLabel": re.sub(r'([A-Z])', r' \1', field_name).strip().title(),
             "@id": f"https://repo.metadatacenter.org/template-fields/{uuid.uuid4()}",
             "$schema": "http://json-schema.org/draft-04/schema#"
         }
