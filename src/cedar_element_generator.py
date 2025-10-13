@@ -44,7 +44,7 @@ Design Decision: List/Radio vs Ontology
 import json
 import uuid
 import re
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 from controlled_terms_loader import ControlledTermsLoader
 
 
@@ -521,6 +521,13 @@ class CEDARElementGenerator:
             "$schema": "http://json-schema.org/draft-04/schema#"
         }
 
+        # Add custom property to preserve semantic mappings
+        # This implements Option B from NEXT_STEPS.md
+        if ct_config and value_constraints.get("literals"):
+            instances = self.controlled_terms_loader.load_instances(field_name)
+            if instances:
+                field["openminds:termMappings"] = self._create_term_mappings(instances)
+
         return field
 
     def _create_field_context(self) -> Dict:
@@ -532,6 +539,7 @@ class CEDARElementGenerator:
             "oslc": "http://open-services.net/ns/core#",
             "schema": "http://schema.org/",
             "skos": "http://www.w3.org/2004/02/skos/core#",
+            "openminds": "https://openminds.om-i.org/vocab/",  # Custom namespace for openMINDS properties
             "schema:name": {"@type": "xsd:string"},
             "schema:description": {"@type": "xsd:string"},
             "skos:prefLabel": {"@type": "xsd:string"},
@@ -541,6 +549,43 @@ class CEDARElementGenerator:
             "pav:lastUpdatedOn": {"@type": "xsd:dateTime"},
             "oslc:modifiedBy": {"@type": "@id"}
         }
+
+    def _create_term_mappings(self, instances: List[Dict]) -> Dict:
+        """
+        Create semantic term mappings from openMINDS instances
+        
+        This preserves the semantic richness of openMINDS while keeping
+        the user-friendly literal interface. Implements Option B from NEXT_STEPS.md.
+        
+        Args:
+            instances: List of loaded openMINDS instances
+            
+        Returns:
+            Dict mapping display labels to semantic information
+        """
+        mappings = {}
+        for inst in instances:
+            if inst.get("name"):
+                mapping = {
+                    "openminds_id": inst.get("id"),
+                    "display_label": inst["name"]
+                }
+                
+                # Add ontology mapping if available
+                if inst.get("ontology_id"):
+                    mapping["ontology_id"] = inst["ontology_id"]
+                    
+                    # Determine ontology source for better organization
+                    if "PATO_" in inst["ontology_id"]:
+                        mapping["ontology_source"] = "PATO"
+                    elif "NCBITaxon_" in inst["ontology_id"]:
+                        mapping["ontology_source"] = "NCBITAXON"
+                    else:
+                        mapping["ontology_source"] = "unknown"
+                
+                mappings[inst["name"]] = mapping
+                
+        return mappings
 
     def _generate_property_iri(self, field_name: str) -> str:
         """Generate a property IRI for a field in the @context"""
