@@ -1,0 +1,23 @@
+# openMINDS to CEDAR Element Converter
+# Python dependencies
+
+# Core dependencies
+requests>=2.31.0         # Required: HTTP requests for CEDAR API
+pyyaml>=6.0.1           # Required: YAML configuration support
+python-dotenv>=1.0.0    # Required: Environment variable management
+
+# Analysis and visualization (for notebooks)
+pandas>=2.0.0           # Optional: Data analysis and comparison tables
+matplotlib>=3.7.0       # Optional: Visualization
+
+# Jupyter support (for demo notebook)
+jupyter>=1.0.0          # Optional: Jupyter notebook
+notebook>=6.4.0         # Optional: Notebook interface
+ipywidgets>=8.0.0       # Optional: Interactive widgets
+
+# Development tools (optional)
+pytest>=7.4.0           # Optional: Testing framework
+black>=23.0.0           # Optional: Code formatting
+flake8>=6.0.0           # Optional: Linting
+mypy>=1.0.0            # Optional: Type checking
+
