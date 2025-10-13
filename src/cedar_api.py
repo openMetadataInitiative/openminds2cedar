@@ -102,9 +102,15 @@ class CEDARAPIClient:
         url = f"{self.base_url}/template-elements"
 
         # Add folder parameter if specified
+        # Note: Parameter name is "folder_id" with underscore, not "folderId"
+        # requests library will automatically URL encode the parameter
         params = {}
-        if folder_id or self.folder_id:
-            params["folderId"] = folder_id or self.folder_id
+        target_folder = folder_id or self.folder_id
+        if target_folder:
+            params["folder_id"] = target_folder
+            print(f"Uploading to folder: {target_folder}")
+        else:
+            print("No folder specified - uploading to workspace root")
 
         try:
             # POST request as per CEDAR API docs

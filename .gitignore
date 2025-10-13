@@ -1,70 +1,33 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
 *.so
-.Python
-build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+build/
 
-# Virtual environments
-venv/
-env/
-ENV/
-.venv
-
-# Jupyter Notebook
+# Jupyter
 .ipynb_checkpoints
-*.ipynb_checkpoints/
+
+# Quarto
+notebooks/*.html
 
 # IDEs
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 .DS_Store
 
-# Project-specific
-# Downloaded schemas (can be re-fetched)
-schemas/openminds/*.json
-
-# Generated output (can be regenerated)
-output/cedar_elements/*.json
-output/cedar_elements/conversion_report.json
-
-# Keep directory structure
-!schemas/openminds/.gitkeep
-!output/cedar_elements/.gitkeep
-
-# Temporary files
-*.tmp
-*.bak
-*.log
-
-# Environment variables
+# Environment
 .env
-.env.local
-.env.production
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
-.tox/
 
-# Secrets
-.env
+# Generated output
+output/cedar_elements/*.json
+output/cedar_elements/conversion_report.json
+
+# Keep directory structure
+!output/cedar_elements/.gitkeep

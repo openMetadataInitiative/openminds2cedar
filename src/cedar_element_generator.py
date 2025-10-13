@@ -2,7 +2,8 @@
 """
 OpenMINDS to CEDAR Element Converter
 
-This module converts openMINDS JSON Schema metadata to CEDAR TemplateElement format.
+This module converts openMINDS JSON Schema metadata to CEDAR TemplateElement format,
+with automatic controlled vocabulary integration and smart UI selection.
 
 Key Assumptions:
 - openMINDS uses full URLs as property keys (e.g., https://openminds.om-i.org/props/biologicalSex)
@@ -14,13 +15,36 @@ Major Differences Handled:
 1. Property naming: URL extraction for CEDAR compliance
 2. Field structure: Flat properties -> nested TemplateField objects
 3. Type mapping: openMINDS types -> CEDAR inputType + _valueConstraints
-4. Ontology support: _linkedTypes -> CEDAR ontology branches
+4. Controlled terms: Automatic detection and literal generation
 5. Required fields: Multiple levels (element, field, field.properties)
+
+Controlled Terms Integration:
+- Detects fields with @type enum in if/then/else structure
+- Loads instances from openMINDS_instances
+- Creates appropriate inputType (radio, list, checkbox)
+- Generates literals with labels for CEDAR UI
+
+Critical CEDAR Quirks:
+1. Literal fields (list/radio/checkbox) use @value, not @id
+2. Link fields (controlled-term/link) use @id, not @value
+3. Descriptions cannot be null (use empty string)
+4. Required fields must not contain duplicates
+5. Context preservation: Clean names in properties, URLs in @context
+
+Valid CEDAR inputType Values (from validation):
+- textfield, textarea, radio, checkbox, boolean, temporal,
+  email, list, numeric, phone-number, attribute-value
+
+Design Decision: List/Radio vs Ontology
+- Current: Use literals from openMINDS for exact control and simple UI
+- Future: Could integrate with BioPortal/InterLex (see NEXT_STEPS.md)
+- Trade-off: User-friendly but loses direct semantic IRI references
 """
 
 import json
 import uuid
 from typing import Dict, Optional
+from controlled_terms_loader import ControlledTermsLoader
 
 
 class CEDARElementGenerator:
@@ -44,6 +68,7 @@ class CEDARElementGenerator:
             cedar_version: CEDAR schema version to use (default: 1.6.0)
         """
         self.cedar_version = cedar_version
+        self.controlled_terms_loader = ControlledTermsLoader()
 
     def _extract_field_name(self, property_name: str) -> Optional[str]:
         """
@@ -217,13 +242,15 @@ class CEDARElementGenerator:
 
         Type Detection Order (priority-based):
         1. Numeric: type is 'number' or 'integer'
-        2. Controlled term with ontology: has '_linkedTypes' property
-        3. Controlled term (IRI): format is 'iri'
-        4. Multi-value controlled term: type 'array' with IRI items
-        5. Default: text field
+        2. Controlled term: has openMINDS @type enum indicating controlled vocabulary
+        3. Controlled term with ontology: has '_linkedTypes' property
+        4. Controlled term (IRI): format is 'iri'
+        5. Multi-value controlled term: type 'array' with IRI items
+        6. Default: text field
 
         Mapping Logic:
         - openMINDS 'type' -> CEDAR 'inputType' + '_valueConstraints'
+        - openMINDS @type enum -> Check for controlled term instances
         - openMINDS '_linkedTypes' -> CEDAR ontology branches (PATO, NCBITAXON)
         - openMINDS 'description' -> CEDAR 'schema:description' (never null)
 
@@ -246,17 +273,38 @@ class CEDARElementGenerator:
         if field_type in ("number", "integer"):
             return self._create_numeric_field(field_name, description, is_required)
 
-        # 2. Controlled terms with ontology: Check for semantic links
+        # 2. Check if this is a controlled term field (has @type enum in then/else structure)
+        # openMINDS uses if/then/else with @type enums to indicate controlled vocabularies
+        if self._is_controlled_term_field(field_spec):
+            return self._create_controlled_term_field(field_name, field_spec, description, is_required)
+
+        # 3. Controlled terms with ontology: Check for semantic links
         # openMINDS uses _linkedTypes to reference ontology concepts
         if "_linkedTypes" in field_spec or field_spec.get("format") == "iri":
             return self._create_controlled_term_field(field_name, field_spec, description, is_required)
 
-        # 3. Array of IRIs: Multi-select controlled term
+        # 4. Array of IRIs: Multi-select controlled term
         if field_type == "array" and field_spec.get("items", {}).get("format") == "iri":
             return self._create_controlled_term_field(field_name, field_spec, description, is_required, multiple=True)
 
-        # 4. Default: Simple text field for strings and untyped fields
+        # 5. Default: Simple text field for strings and untyped fields
         return self._create_text_field(field_name, description, is_required)
+
+    def _is_controlled_term_field(self, field_spec: Dict) -> bool:
+        """
+        Check if field is a controlled term by looking for @type enum
+
+        openMINDS uses if/then/else structure with @type enum to indicate controlled terms
+        Example: @type: enum: ["https://openminds.om-i.org/types/Species"]
+        """
+        # Check in 'then' branch for @type enum
+        then_props = field_spec.get("then", {}).get("properties", {})
+        if "@type" in then_props:
+            type_enum = then_props["@type"].get("enum", [])
+            # Look for openMINDS type URLs
+            return any("openminds.om-i.org/types/" in url for url in type_enum)
+
+        return False
 
     def _create_text_field(self, field_name: str, description: str, is_required: bool) -> Dict:
         """Create a CEDAR text field"""
@@ -349,21 +397,10 @@ class CEDARElementGenerator:
     def _create_controlled_term_field(self, field_name: str, field_spec: Dict,
                                      description: str, is_required: bool, multiple: bool = False) -> Dict:
         """
-        Create a CEDAR controlled term field with ontology support
+        Create a CEDAR controlled term field with value constraints
 
-        Ontology Mapping Assumptions:
-        - openMINDS '_linkedTypes' contains semantic references
-        - Specific types map to specific ontologies:
-          * 'BiologicalSex' -> PATO (Phenotype And Trait Ontology)
-          * 'Species' -> NCBITAXON (NCBI Taxonomy)
-        - Custom mappings can be added in config.yaml
-
-        CEDAR _valueConstraints Structure:
-        - ontologies: List of ontology acronyms (e.g., NCBITAXON)
-        - branches: Specific ontology branches with URIs
-        - classes: Specific ontology classes
-        - valueSets: Pre-defined value sets
-        - multipleChoice: Allow multiple selections
+        If openMINDS has controlled term instances for this field, they are automatically
+        loaded and added as literals in the CEDAR field.
 
         Args:
             field_name: Clean field name
@@ -373,26 +410,70 @@ class CEDARElementGenerator:
             multiple: Allow multiple values (for arrays)
 
         Returns:
-            CEDAR TemplateField with ontology constraints
+            CEDAR TemplateField with value constraints (literals if available)
         """
-        field = {
-            "@type": "https://schema.metadatacenter.org/core/TemplateField",
-            "@context": self._create_field_context(),
-            "type": "object",
-            "title": f"{field_name} field schema",
-            "description": f"{field_name} field schema generated from openMINDS",
-            "_ui": {
-                "inputType": "textfield"
-            },
-            "_valueConstraints": {
+        # Check if controlled terms exist in openMINDS_instances
+        ct_config = self.controlled_terms_loader.get_cedar_value_constraints(
+            field_name, is_required, multiple
+        )
+
+        # Use controlled terms config or create default link field
+        if ct_config:
+            input_type = ct_config["inputType"]
+            value_constraints = ct_config["valueConstraints"]
+        else:
+            input_type = "link"
+            value_constraints = {
                 "requiredValue": is_required,
-                "ontologies": [],
-                "valueSets": [],
-                "classes": [],
-                "branches": [],
                 "multipleChoice": multiple
-            },
-            "properties": {
+            }
+
+        # CRITICAL CEDAR QUIRK: @value vs @id property structure
+        #
+        # This was discovered through CEDAR validation errors. CEDAR schema defines
+        # different required properties based on inputType:
+        #
+        # Literal fields (list, radio, checkbox, textfield, etc.):
+        # - Store value in @value property
+        # - Used when value is a literal string or number
+        # - Example: User selects "female" -> stored as @value: "female"
+        #
+        # Link fields (controlled-term, link):
+        # - Store value in @id property
+        # - Used when value is an IRI/URI reference
+        # - Example: User enters IRI -> stored as @id: "http://..."
+        #
+        # Why this matters:
+        # - Controls what user sees in CEDAR UI (text vs IRI input)
+        # - Affects validation (different schemas for @value vs @id)
+        # - Impacts data model (literals vs references)
+        #
+        # Decision: Use @value for controlled terms to get user-friendly labels
+        # Trade-off: Lose direct IRI references (see NEXT_STEPS.md for solutions)
+        if input_type in ["list", "radio", "checkbox"]:
+            properties = {
+                "@type": {
+                    "oneOf": [
+                        {"type": "string", "format": "uri"},
+                        {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {"type": "string", "format": "uri"},
+                            "uniqueItems": True
+                        }
+                    ]
+                },
+                "@value": {
+                    "type": ["string", "null"]
+                },
+                "rdfs:label": {
+                    "type": ["string", "null"]
+                }
+            }
+            required_props = ["@value"] if is_required else []
+        else:
+            # Link fields use @id
+            properties = {
                 "@type": {
                     "oneOf": [
                         {"type": "string", "format": "uri"},
@@ -411,7 +492,21 @@ class CEDARElementGenerator:
                     "type": "string",
                     "format": "uri"
                 }
+            }
+            required_props = ["@id"] if is_required else []
+
+        field = {
+            "@type": "https://schema.metadatacenter.org/core/TemplateField",
+            "@context": self._create_field_context(),
+            "type": "object",
+            "title": f"{field_name} field schema",
+            "description": f"{field_name} field schema generated from openMINDS",
+            "_ui": {
+                "inputType": input_type
             },
+            "_valueConstraints": value_constraints,
+            "properties": properties,
+            "required": required_props,
             "schema:name": field_name,
             "schema:description": description,
             "pav:createdOn": None,
@@ -424,37 +519,6 @@ class CEDARElementGenerator:
             "@id": f"https://repo.metadatacenter.org/template-fields/{uuid.uuid4()}",
             "$schema": "http://json-schema.org/draft-04/schema#"
         }
-
-        # Ontology mapping: Convert openMINDS _linkedTypes to CEDAR ontology constraints
-        # This enables controlled vocabulary and autocomplete in CEDAR forms
-        if "_linkedTypes" in field_spec:
-            linked_types = field_spec["_linkedTypes"]
-
-            # Mapping 1: BiologicalSex -> PATO ontology branch
-            # PATO provides standardized phenotype and trait terms
-            # Using specific branch (PATO_0000047) for biological sex concept
-            # maxDepth: 0 means use only the root term, not children
-            if any("BiologicalSex" in lt for lt in linked_types):
-                field["_valueConstraints"]["branches"].append({
-                    "source": "Phenotype And Trait Ontology (PATO)",
-                    "acronym": "PATO",
-                    "uri": "http://purl.obolibrary.org/obo/PATO_0000047",
-                    "name": "biological sex",
-                    "maxDepth": 0
-                })
-
-            # Mapping 2: Species -> NCBITAXON ontology
-            # NCBITAXON provides comprehensive species taxonomy
-            # Using full ontology (not specific branch) for species selection
-            elif any("Species" in lt for lt in linked_types):
-                field["_valueConstraints"]["ontologies"].append({
-                    "acronym": "NCBITAXON",
-                    "name": "NCBI Taxonomy",
-                    "uri": "https://data.bioontology.org/ontologies/NCBITAXON"
-                })
-
-            # Note: Additional mappings can be added here or loaded from config.yaml
-            # Example: Organism -> NCBITAXON, Disease -> DOID, etc.
 
         return field
 

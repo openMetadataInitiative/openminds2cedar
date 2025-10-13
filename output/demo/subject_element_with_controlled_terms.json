@@ -158,10 +158,25 @@
       "title": "biologicalSex field schema",
       "description": "biologicalSex field schema generated from openMINDS",
       "_ui": {
-        "inputType": "textfield"
+        "inputType": "radio"
       },
       "_valueConstraints": {
-        "requiredValue": false
+        "requiredValue": false,
+        "literals": [
+          {
+            "label": "female"
+          },
+          {
+            "label": "hermaphrodite"
+          },
+          {
+            "label": "male"
+          },
+          {
+            "label": "not detectable"
+          }
+        ],
+        "multipleChoice": false
       },
       "properties": {
         "@type": {
@@ -204,7 +219,7 @@
       "schema:schemaVersion": "1.6.0",
       "additionalProperties": false,
       "skos:prefLabel": "Biologicalsex",
-      "@id": "https://repo.metadatacenter.org/template-fields/fc1ddded-0993-45f6-8c7a-bb89d57ed409",
+      "@id": "https://repo.metadatacenter.org/template-fields/9f91f2b1-3731-426e-a9ac-124062de675c",
       "$schema": "http://json-schema.org/draft-04/schema#"
     },
     "internalIdentifier": {
@@ -291,7 +306,7 @@
       "schema:schemaVersion": "1.6.0",
       "additionalProperties": false,
       "skos:prefLabel": "Internalidentifier",
-      "@id": "https://repo.metadatacenter.org/template-fields/75c280f5-705f-4532-a9e7-eea23aefbbab",
+      "@id": "https://repo.metadatacenter.org/template-fields/fe4b986f-50a6-487a-8d9f-e5757102a2c8",
       "$schema": "http://json-schema.org/draft-04/schema#"
     },
     "isPartOf": {
@@ -378,7 +393,7 @@
       "schema:schemaVersion": "1.6.0",
       "additionalProperties": false,
       "skos:prefLabel": "Ispartof",
-      "@id": "https://repo.metadatacenter.org/template-fields/02b3636d-54f0-4deb-8f24-cd1f67b9ebd4",
+      "@id": "https://repo.metadatacenter.org/template-fields/d8e25386-d03a-4481-a54a-a77f8b596d0d",
       "$schema": "http://json-schema.org/draft-04/schema#"
     },
     "lookupLabel": {
@@ -465,7 +480,7 @@
       "schema:schemaVersion": "1.6.0",
       "additionalProperties": false,
       "skos:prefLabel": "Lookuplabel",
-      "@id": "https://repo.metadatacenter.org/template-fields/a8389ccf-0a06-47c4-9647-4766827de47b",
+      "@id": "https://repo.metadatacenter.org/template-fields/a59b9a0a-350e-4147-bc68-a70ddf44b02a",
       "$schema": "http://json-schema.org/draft-04/schema#"
     },
     "species": {
@@ -506,10 +521,88 @@
       "title": "species field schema",
       "description": "species field schema generated from openMINDS",
       "_ui": {
-        "inputType": "textfield"
+        "inputType": "list"
       },
       "_valueConstraints": {
-        "requiredValue": true
+        "requiredValue": true,
+        "literals": [
+          {
+            "label": "Berghia stephanieae"
+          },
+          {
+            "label": "Bos taurus"
+          },
+          {
+            "label": "Callithrix jacchus"
+          },
+          {
+            "label": "Cervus elaphus"
+          },
+          {
+            "label": "Chlorocebus aethiops sabaeus"
+          },
+          {
+            "label": "Chlorocebus pygerythrus"
+          },
+          {
+            "label": "Cricetulus griseus"
+          },
+          {
+            "label": "Danio rerio"
+          },
+          {
+            "label": "Drosophila melanogaster"
+          },
+          {
+            "label": "Felis catus"
+          },
+          {
+            "label": "Homo sapiens"
+          },
+          {
+            "label": "Macaca fascicularis"
+          },
+          {
+            "label": "Macaca fuscata"
+          },
+          {
+            "label": "Macaca mulatta"
+          },
+          {
+            "label": "Macaca nemestrina"
+          },
+          {
+            "label": "Meriones unguiculatus"
+          },
+          {
+            "label": "Monodelphis domestica"
+          },
+          {
+            "label": "Mus musculus"
+          },
+          {
+            "label": "Mustela putorius"
+          },
+          {
+            "label": "Mustela putorius furo"
+          },
+          {
+            "label": "Ovis aries"
+          },
+          {
+            "label": "Quiscalus mexicanus"
+          },
+          {
+            "label": "Rattus norvegicus"
+          },
+          {
+            "label": "Sus scrofa domesticus"
+          },
+          {
+            "label": "Trachemys scripta elegans"
+          }
+        ],
+        "multipleChoice": false
       },
       "properties": {
         "@type": {
@@ -554,7 +647,7 @@
       "schema:schemaVersion": "1.6.0",
       "additionalProperties": false,
       "skos:prefLabel": "Species",
-      "@id": "https://repo.metadatacenter.org/template-fields/9a9096cf-0991-4aa1-a951-4e752a8fa300",
+      "@id": "https://repo.metadatacenter.org/template-fields/d418a59d-7183-4ce0-8000-653e08aee4b7",
       "$schema": "http://json-schema.org/draft-04/schema#"
     },
     "studiedState": {
@@ -643,7 +736,7 @@
       "schema:schemaVersion": "1.6.0",
       "additionalProperties": false,
       "skos:prefLabel": "Studiedstate",
-      "@id": "https://repo.metadatacenter.org/template-fields/ed876da9-03a6-4bda-9f70-6f013054446e",
+      "@id": "https://repo.metadatacenter.org/template-fields/c4cca669-238e-4911-b970-6416c42a2822",
       "$schema": "http://json-schema.org/draft-04/schema#"
     }
   },
