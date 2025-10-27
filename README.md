@@ -27,7 +27,7 @@ python main.py upload
 ## Features
 
 - Converts openMINDS schemas to CEDAR format
-- Integrates controlled vocabularies (81 types, 2,700+ instances)
+- Integrates controlled vocabularies
 - Smart UI selection (radio buttons for small lists, dropdowns for large)
 - CEDAR API validation and upload
 
