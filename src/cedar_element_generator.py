@@ -124,7 +124,7 @@ class CEDARElementGenerator:
             CEDAR TemplateElement dictionary (JSON-LD compliant)
         """
         title = element_name or openminds_schema.get("title", "Unnamed Element")
-        description = openminds_schema.get("description", f"{title} generated from openMINDS schema")
+        description = openminds_schema.get("description") or f"{title} generated from openMINDS schema"
 
         # CEDAR Element skeleton with required top-level properties
         # Note: @id is null (CEDAR assigns UUID on upload)

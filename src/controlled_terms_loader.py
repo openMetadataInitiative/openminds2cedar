@@ -150,29 +150,7 @@ class ControlledTermsLoader:
         }
 
     def load_instances(self, term_type: str) -> List[Dict]:
-        """
-        Load all instances for a term type (e.g., 'species')
-
-        Args:
-            term_type: Name of the controlled term type (directory name)
-
-        Returns:
-            List of instance dictionaries with keys:
-            - id: openMINDS IRI (e.g., https://openminds.om-i.org/instances/species/homoSapiens)
-            - name: Human-readable label (e.g., "Homo sapiens")
-            - ontology_id: Preferred ontology IRI if available (e.g., NCBITaxon:9606)
-
-        Note: openMINDS JSONLD structure:
-            {
-                "@id": "https://openminds.om-i.org/instances/...",
-                "@type": "https://openminds.om-i.org/types/...",
-                "name": "Homo sapiens",
-                "preferredOntologyIdentifier": "http://purl.obolibrary.org/obo/NCBITaxon_9606"
-            }
-
-        Quirk: Some instances may not have preferredOntologyIdentifier
-               (ontology_id will be None in those cases)
-        """
+        """Load all instances for a term type (e.g., 'species')"""
         term_path = self.terminologies_path / term_type
 
         if not term_path.exists():
@@ -183,12 +161,10 @@ class ControlledTermsLoader:
             with open(jsonld_file) as f:
                 data = json.load(f)
                 instances.append({
-                    "id": data.get("@id"),  # openMINDS IRI
-                    "name": data.get("name"),  # Display label
-                    "ontology_id": data.get("preferredOntologyIdentifier")  # Ontology mapping
+                    "id": data.get("@id"),
+                    "name": data.get("name"),
+                    "ontology_id": data.get("preferredOntologyIdentifier")
                 })
 
-        # DECISION: Sort alphabetically by name for consistent UI display
-        # This ensures dropdowns and radio buttons show options in predictable order
         instances.sort(key=lambda x: x["name"] or "")
         return instances
