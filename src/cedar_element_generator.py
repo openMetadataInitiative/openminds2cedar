@@ -309,7 +309,7 @@ class CEDARElementGenerator:
 
     def _create_text_field(self, field_name: str, description: str, is_required: bool) -> Dict:
         """Create a CEDAR text field"""
-        return {
+        field = {
             "@type": "https://schema.metadatacenter.org/core/TemplateField",
             "@context": self._create_field_context(),
             "type": "object",
@@ -340,7 +340,6 @@ class CEDARElementGenerator:
                     "type": ["string", "null"]
                 }
             },
-            "required": ["@value"] if is_required else [],
             "schema:name": field_name,
             "schema:description": description,
             "pav:createdOn": None,
@@ -354,9 +353,15 @@ class CEDARElementGenerator:
             "$schema": "http://json-schema.org/draft-04/schema#"
         }
 
+        # Add 'required' only if field is required (avoid empty array)
+        if is_required:
+            field["required"] = ["@value"]
+
+        return field
+
     def _create_numeric_field(self, field_name: str, description: str, is_required: bool) -> Dict:
         """Create a CEDAR numeric field"""
-        return {
+        field = {
             "@type": "https://schema.metadatacenter.org/core/TemplateField",
             "@context": self._create_field_context(),
             "type": "object",
@@ -381,7 +386,6 @@ class CEDARElementGenerator:
                     "format": "uri"
                 }
             },
-            "required": ["@value", "@type"] if is_required else [],
             "schema:name": field_name,
             "schema:description": description,
             "pav:createdOn": None,
@@ -394,6 +398,12 @@ class CEDARElementGenerator:
             "@id": f"https://repo.metadatacenter.org/template-fields/{uuid.uuid4()}",
             "$schema": "http://json-schema.org/draft-04/schema#"
         }
+
+        # Add 'required' only if field is required (avoid empty array)
+        if is_required:
+            field["required"] = ["@value", "@type"]
+
+        return field
 
     def _create_controlled_term_field(self, field_name: str, field_spec: Dict,
                                      description: str, is_required: bool, multiple: bool = False) -> Dict:
@@ -507,7 +517,6 @@ class CEDARElementGenerator:
             },
             "_valueConstraints": value_constraints,
             "properties": properties,
-            "required": required_props,
             "schema:name": field_name,
             "schema:description": description,
             "pav:createdOn": None,
@@ -520,6 +529,10 @@ class CEDARElementGenerator:
             "@id": f"https://repo.metadatacenter.org/template-fields/{uuid.uuid4()}",
             "$schema": "http://json-schema.org/draft-04/schema#"
         }
+
+        # Add 'required' only if field is required (avoid empty array)
+        if required_props:
+            field["required"] = required_props
 
         # Add custom property to preserve semantic mappings
         # This implements Option B from NEXT_STEPS.md
