@@ -1,0 +1,731 @@
+{
+  "@type": "https://schema.metadatacenter.org/core/TemplateElement",
+  "@id": "https://repo.metadatacenter.org/template-elements/949f3e89-b538-4e07-a0f6-b9d4f0c0eedd",
+  "type": "object",
+  "title": "Subject element schema",
+  "description": "\nStructured information on a subject.\n\nArgs\n----\nbiological_sex : ~openminds.latest.controlled_terms.biological_sex.BiologicalSex\n    Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.\ninternal_identifier : str\n    Term or code that identifies the subject within a particular product.\nis_part_of : ~openminds.latest.core.research.subject_group.SubjectGroup\n    Reference to the ensemble of multiple things or beings.\nlookup_label : str\n    no description available\nspecies : ~openminds.latest.controlled_terms.species.Species, ~openminds.latest.core.research.strain.Strain\n    Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.\nstudied_states : ~openminds.latest.core.research.subject_state.SubjectState\n    Reference to a point in time at which the subject was studied in a particular mode or condition.\n\n",
+  "schema:name": "subject",
+  "schema:description": "\nStructured information on a subject.\n\nArgs\n----\nbiological_sex : ~openminds.latest.controlled_terms.biological_sex.BiologicalSex\n    Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.\ninternal_identifier : str\n    Term or code that identifies the subject within a particular product.\nis_part_of : ~openminds.latest.core.research.subject_group.SubjectGroup\n    Reference to the ensemble of multiple things or beings.\nlookup_label : str\n    no description available\nspecies : ~openminds.latest.controlled_terms.species.Species, ~openminds.latest.core.research.strain.Strain\n    Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.\nstudied_states : ~openminds.latest.core.research.subject_state.SubjectState\n    Reference to a point in time at which the subject was studied in a particular mode or condition.\n\n",
+  "schema:schemaVersion": "1.6.0",
+  "pav:version": "0.0.1",
+  "bibo:status": "bibo:draft",
+  "openminds:schemaVersion": "latest",
+  "openminds:generatedAt": "2026-02-02T07:06:30.478362+00:00",
+  "openminds:sourceType": "https://openminds.om-i.org/types/Subject",
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "pav": "http://purl.org/pav/",
+    "bibo": "http://purl.org/ontology/bibo/",
+    "oslc": "http://open-services.net/ns/core#",
+    "schema": "http://schema.org/",
+    "openminds": "https://openminds.om-i.org/vocab/",
+    "schema:name": {
+      "@type": "xsd:string"
+    },
+    "schema:description": {
+      "@type": "xsd:string"
+    },
+    "pav:createdOn": {
+      "@type": "xsd:dateTime"
+    },
+    "pav:createdBy": {
+      "@type": "@id"
+    },
+    "pav:lastUpdatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "oslc:modifiedBy": {
+      "@type": "@id"
+    }
+  },
+  "properties": {
+    "@context": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "@id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "@type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "uniqueItems": true
+        }
+      ]
+    },
+    "biologicalSex": {
+      "@type": "https://schema.metadatacenter.org/core/TemplateField",
+      "@id": "https://repo.metadatacenter.org/template-fields/f98c6d85-ceae-4869-b4c0-8d809187c564",
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "pav": "http://purl.org/pav/",
+        "bibo": "http://purl.org/ontology/bibo/",
+        "oslc": "http://open-services.net/ns/core#",
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "openminds": "https://openminds.om-i.org/vocab/",
+        "schema:name": {
+          "@type": "xsd:string"
+        },
+        "schema:description": {
+          "@type": "xsd:string"
+        },
+        "skos:prefLabel": {
+          "@type": "xsd:string"
+        },
+        "skos:altLabel": {
+          "@type": "xsd:string"
+        },
+        "pav:createdOn": {
+          "@type": "xsd:dateTime"
+        },
+        "pav:createdBy": {
+          "@type": "@id"
+        },
+        "pav:lastUpdatedOn": {
+          "@type": "xsd:dateTime"
+        },
+        "oslc:modifiedBy": {
+          "@type": "@id"
+        }
+      },
+      "type": "object",
+      "title": "biologicalSex field schema",
+      "description": "Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.",
+      "schema:name": "biologicalSex",
+      "schema:description": "Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.",
+      "schema:schemaVersion": "1.6.0",
+      "skos:prefLabel": "Biological Sex",
+      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "_ui": {
+        "inputType": "list"
+      },
+      "_valueConstraints": {
+        "requiredValue": false,
+        "literals": [
+          {
+            "label": "female"
+          },
+          {
+            "label": "hermaphrodite"
+          },
+          {
+            "label": "male"
+          },
+          {
+            "label": "not detectable"
+          }
+        ],
+        "multipleChoice": false
+      },
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "uniqueItems": true
+            }
+          ]
+        },
+        "@value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rdfs:label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "$schema": "http://json-schema.org/draft-04/schema#"
+    },
+    "internalIdentifier": {
+      "@type": "https://schema.metadatacenter.org/core/TemplateField",
+      "@id": "https://repo.metadatacenter.org/template-fields/3ece1a15-4c14-47f0-bad3-e1c717917d2c",
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "pav": "http://purl.org/pav/",
+        "bibo": "http://purl.org/ontology/bibo/",
+        "oslc": "http://open-services.net/ns/core#",
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "openminds": "https://openminds.om-i.org/vocab/",
+        "schema:name": {
+          "@type": "xsd:string"
+        },
+        "schema:description": {
+          "@type": "xsd:string"
+        },
+        "skos:prefLabel": {
+          "@type": "xsd:string"
+        },
+        "skos:altLabel": {
+          "@type": "xsd:string"
+        },
+        "pav:createdOn": {
+          "@type": "xsd:dateTime"
+        },
+        "pav:createdBy": {
+          "@type": "@id"
+        },
+        "pav:lastUpdatedOn": {
+          "@type": "xsd:dateTime"
+        },
+        "oslc:modifiedBy": {
+          "@type": "@id"
+        }
+      },
+      "type": "object",
+      "title": "internalIdentifier field schema",
+      "description": "Term or code that identifies the subject within a particular product.",
+      "schema:name": "internalIdentifier",
+      "schema:description": "Term or code that identifies the subject within a particular product.",
+      "schema:schemaVersion": "1.6.0",
+      "skos:prefLabel": "Internal Identifier",
+      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "_ui": {
+        "inputType": "textfield"
+      },
+      "_valueConstraints": {
+        "requiredValue": false
+      },
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "uniqueItems": true
+            }
+          ]
+        },
+        "@value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rdfs:label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "$schema": "http://json-schema.org/draft-04/schema#"
+    },
+    "isPartOf": {
+      "@type": "https://schema.metadatacenter.org/core/TemplateField",
+      "@id": "https://repo.metadatacenter.org/template-fields/1fae6930-b6a6-4108-9fb0-270e07be438c",
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "pav": "http://purl.org/pav/",
+        "bibo": "http://purl.org/ontology/bibo/",
+        "oslc": "http://open-services.net/ns/core#",
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "openminds": "https://openminds.om-i.org/vocab/",
+        "schema:name": {
+          "@type": "xsd:string"
+        },
+        "schema:description": {
+          "@type": "xsd:string"
+        },
+        "skos:prefLabel": {
+          "@type": "xsd:string"
+        },
+        "skos:altLabel": {
+          "@type": "xsd:string"
+        },
+        "pav:createdOn": {
+          "@type": "xsd:dateTime"
+        },
+        "pav:createdBy": {
+          "@type": "@id"
+        },
+        "pav:lastUpdatedOn": {
+          "@type": "xsd:dateTime"
+        },
+        "oslc:modifiedBy": {
+          "@type": "@id"
+        }
+      },
+      "type": "object",
+      "title": "isPartOf field schema",
+      "description": "Reference to the ensemble of multiple things or beings.",
+      "schema:name": "isPartOf",
+      "schema:description": "Reference to the ensemble of multiple things or beings.",
+      "schema:schemaVersion": "1.6.0",
+      "skos:prefLabel": "Is Part Of",
+      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "_ui": {
+        "inputType": "textfield"
+      },
+      "_valueConstraints": {
+        "requiredValue": false
+      },
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "uniqueItems": true
+            }
+          ]
+        },
+        "@value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rdfs:label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "$schema": "http://json-schema.org/draft-04/schema#"
+    },
+    "lookupLabel": {
+      "@type": "https://schema.metadatacenter.org/core/TemplateField",
+      "@id": "https://repo.metadatacenter.org/template-fields/2865db24-bf52-4931-b94c-647a82c8232a",
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "pav": "http://purl.org/pav/",
+        "bibo": "http://purl.org/ontology/bibo/",
+        "oslc": "http://open-services.net/ns/core#",
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "openminds": "https://openminds.om-i.org/vocab/",
+        "schema:name": {
+          "@type": "xsd:string"
+        },
+        "schema:description": {
+          "@type": "xsd:string"
+        },
+        "skos:prefLabel": {
+          "@type": "xsd:string"
+        },
+        "skos:altLabel": {
+          "@type": "xsd:string"
+        },
+        "pav:createdOn": {
+          "@type": "xsd:dateTime"
+        },
+        "pav:createdBy": {
+          "@type": "@id"
+        },
+        "pav:lastUpdatedOn": {
+          "@type": "xsd:dateTime"
+        },
+        "oslc:modifiedBy": {
+          "@type": "@id"
+        }
+      },
+      "type": "object",
+      "title": "lookupLabel field schema",
+      "description": "no description available",
+      "schema:name": "lookupLabel",
+      "schema:description": "no description available",
+      "schema:schemaVersion": "1.6.0",
+      "skos:prefLabel": "Lookup Label",
+      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "_ui": {
+        "inputType": "textfield"
+      },
+      "_valueConstraints": {
+        "requiredValue": false
+      },
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "uniqueItems": true
+            }
+          ]
+        },
+        "@value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rdfs:label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "$schema": "http://json-schema.org/draft-04/schema#"
+    },
+    "species": {
+      "@type": "https://schema.metadatacenter.org/core/TemplateField",
+      "@id": "https://repo.metadatacenter.org/template-fields/2bdcff80-d57c-4ba1-93d9-e67d0230e233",
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "pav": "http://purl.org/pav/",
+        "bibo": "http://purl.org/ontology/bibo/",
+        "oslc": "http://open-services.net/ns/core#",
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "openminds": "https://openminds.om-i.org/vocab/",
+        "schema:name": {
+          "@type": "xsd:string"
+        },
+        "schema:description": {
+          "@type": "xsd:string"
+        },
+        "skos:prefLabel": {
+          "@type": "xsd:string"
+        },
+        "skos:altLabel": {
+          "@type": "xsd:string"
+        },
+        "pav:createdOn": {
+          "@type": "xsd:dateTime"
+        },
+        "pav:createdBy": {
+          "@type": "@id"
+        },
+        "pav:lastUpdatedOn": {
+          "@type": "xsd:dateTime"
+        },
+        "oslc:modifiedBy": {
+          "@type": "@id"
+        }
+      },
+      "type": "object",
+      "title": "species field schema",
+      "description": "Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.",
+      "schema:name": "species",
+      "schema:description": "Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.",
+      "schema:schemaVersion": "1.6.0",
+      "skos:prefLabel": "Species",
+      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "_ui": {
+        "inputType": "textfield"
+      },
+      "_valueConstraints": {
+        "requiredValue": true,
+        "literals": [
+          {
+            "label": "Berghia stephanieae"
+          },
+          {
+            "label": "Bos taurus"
+          },
+          {
+            "label": "Caenorhabditis elegans"
+          },
+          {
+            "label": "Callithrix jacchus"
+          },
+          {
+            "label": "Cervus elaphus"
+          },
+          {
+            "label": "Chlorocebus aethiops sabaeus"
+          },
+          {
+            "label": "Chlorocebus pygerythrus"
+          },
+          {
+            "label": "Cricetulus griseus"
+          },
+          {
+            "label": "Danio rerio"
+          },
+          {
+            "label": "Drosophila melanogaster"
+          },
+          {
+            "label": "Felis catus"
+          },
+          {
+            "label": "Homo sapiens"
+          },
+          {
+            "label": "Macaca fascicularis"
+          },
+          {
+            "label": "Macaca fuscata"
+          },
+          {
+            "label": "Macaca mulatta"
+          },
+          {
+            "label": "Macaca nemestrina"
+          },
+          {
+            "label": "Meriones unguiculatus"
+          },
+          {
+            "label": "Monodelphis domestica"
+          },
+          {
+            "label": "Mus musculus"
+          },
+          {
+            "label": "Mustela putorius"
+          },
+          {
+            "label": "Mustela putorius furo"
+          },
+          {
+            "label": "Ovis aries"
+          },
+          {
+            "label": "Quiscalus mexicanus"
+          },
+          {
+            "label": "Rattus norvegicus"
+          },
+          {
+            "label": "Sus scrofa domesticus"
+          },
+          {
+            "label": "Trachemys scripta elegans"
+          }
+        ],
+        "multipleChoice": false
+      },
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "uniqueItems": true
+            }
+          ]
+        },
+        "@value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rdfs:label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "@value"
+      ],
+      "$schema": "http://json-schema.org/draft-04/schema#"
+    },
+    "studiedState": {
+      "@type": "https://schema.metadatacenter.org/core/TemplateField",
+      "@id": "https://repo.metadatacenter.org/template-fields/359e1cd8-6f03-4e53-b024-7d910983f959",
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "pav": "http://purl.org/pav/",
+        "bibo": "http://purl.org/ontology/bibo/",
+        "oslc": "http://open-services.net/ns/core#",
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "openminds": "https://openminds.om-i.org/vocab/",
+        "schema:name": {
+          "@type": "xsd:string"
+        },
+        "schema:description": {
+          "@type": "xsd:string"
+        },
+        "skos:prefLabel": {
+          "@type": "xsd:string"
+        },
+        "skos:altLabel": {
+          "@type": "xsd:string"
+        },
+        "pav:createdOn": {
+          "@type": "xsd:dateTime"
+        },
+        "pav:createdBy": {
+          "@type": "@id"
+        },
+        "pav:lastUpdatedOn": {
+          "@type": "xsd:dateTime"
+        },
+        "oslc:modifiedBy": {
+          "@type": "@id"
+        }
+      },
+      "type": "object",
+      "title": "studiedState field schema",
+      "description": "Reference to a point in time at which the subject was studied in a particular mode or condition.",
+      "schema:name": "studiedState",
+      "schema:description": "Reference to a point in time at which the subject was studied in a particular mode or condition.",
+      "schema:schemaVersion": "1.6.0",
+      "skos:prefLabel": "Studied State",
+      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+      "_ui": {
+        "inputType": "textfield"
+      },
+      "_valueConstraints": {
+        "requiredValue": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "uniqueItems": true
+            }
+          ]
+        },
+        "@value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rdfs:label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "@value"
+      ],
+      "$schema": "http://json-schema.org/draft-04/schema#"
+    }
+  },
+  "_ui": {
+    "order": [
+      "biologicalSex",
+      "internalIdentifier",
+      "isPartOf",
+      "lookupLabel",
+      "species",
+      "studiedState"
+    ],
+    "propertyLabels": {
+      "biologicalSex": "Biological Sex",
+      "internalIdentifier": "Internal Identifier",
+      "isPartOf": "Is Part Of",
+      "lookupLabel": "Lookup Label",
+      "species": "Species",
+      "studiedState": "Studied State"
+    },
+    "propertyDescriptions": {
+      "biologicalSex": "Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.",
+      "internalIdentifier": "Term or code that identifies the subject within a particular product.",
+      "isPartOf": "Reference to the ensemble of multiple things or beings.",
+      "lookupLabel": "no description available",
+      "species": "Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.",
+      "studiedState": "Reference to a point in time at which the subject was studied in a particular mode or condition."
+    }
+  },
+  "required": [
+    "@context",
+    "@id",
+    "species",
+    "studiedState"
+  ],
+  "additionalProperties": false,
+  "pav:createdOn": "2026-02-01T23:06:32-08:00",
+  "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+  "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+  "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+  "$schema": "http://json-schema.org/draft-04/schema#"
+}

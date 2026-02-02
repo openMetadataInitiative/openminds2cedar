@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: openminds2cedar
+Version: 0.1.0
+Summary: Generate CEDAR template elements from openMINDS schemas
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: openminds>=0.4.0
+Requires-Dist: python-dotenv>=1.2.1
+Requires-Dist: pyyaml>=6.0.3
+Requires-Dist: requests>=2.32.5
+
+# openminds2cedar
+
+Generate CEDAR template elements from openMINDS schemas.
+
+## Quick Start
+
+```bash
+# Install dependencies
+uv sync
+
+# Generate a CEDAR element
+uv run openminds2cedar generate Subject
+
+# Convert a filled CEDAR instance to openMINDS
+uv run openminds2cedar convert instance.json -o output.jsonld
+```
+
+## Architecture
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module overview.
+
+## Project Structure
+
+```
+src/openminds2cedar/
+├── registry/       # Schema and field configuration (YAML)
+├── generators/     # CEDAR element generation
+├── converters/     # CEDAR → openMINDS conversion
+└── api/            # CEDAR Workbench API client
+```
+
+## Configuration
+
+- `registry/schemas.yaml` - Which openMINDS schemas to generate
+- `registry/fields.yaml` - Field-level configuration
+- `config.yaml` - Runtime config (API keys, paths)

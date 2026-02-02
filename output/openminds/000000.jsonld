@@ -1,0 +1,13 @@
+{
+  "@context": {
+    "@vocab": "https://openminds.om-i.org/props/"
+  },
+  "@id": "_:000000",
+  "@type": "https://openminds.om-i.org/types/SubjectState",
+  "additionalRemarks": "Good signal quality, normal behavior",
+  "ageCategory": {
+    "@id": "https://openminds.om-i.org/instances/ageCategory/adult"
+  },
+  "internalIdentifier": "ses-baseline",
+  "lookupLabel": "Mouse 01 - Baseline Session"
+}

@@ -1,6 +1,0 @@
-[submodule "external/openMINDS_JSON-Schema"]
-	path = external/openMINDS_JSON-Schema
-	url = https://github.com/openMetadataInitiative/openMINDS_JSON-Schema.git
-[submodule "external/openMINDS_instances"]
-	path = external/openMINDS_instances
-	url = https://github.com/openMetadataInitiative/openMINDS_instances.git
