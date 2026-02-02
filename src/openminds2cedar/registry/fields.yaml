@@ -1,12 +1,37 @@
 # Controlled term fields - specify term_class for vocabulary lookup
-# Text/link fields don't need config - handled by default
+# Fields not listed here are handled as text fields by default
 
 controlled_terms:
+  # Subject/SubjectState fields
   species: controlled_terms.Species
   biologicalSex: controlled_terms.BiologicalSex
   ageCategory: controlled_terms.AgeCategory
   handedness: controlled_terms.Handedness
-  strain: controlled_terms.Strain
-  phenotype: controlled_terms.Phenotype
+  attribute: controlled_terms.SubjectAttribute  # Also TissueSampleAttribute
+
+  # Disease and pathology
   disease: controlled_terms.Disease
   diseaseModel: controlled_terms.DiseaseModel
+  pathology: controlled_terms.Disease  # Can also be DiseaseModel
+
+  # Tissue sample fields
+  type: controlled_terms.TissueSampleType
+  laterality: controlled_terms.Laterality
+  origin: controlled_terms.Organ  # Can also be CellType, OrganismSubstance
+
+  # Dataset fields
+  accessibility: controlled_terms.ProductAccessibility
+  dataType: controlled_terms.SemanticDataType
+  ethicsAssessment: controlled_terms.EthicsAssessment
+  experimentalApproach: controlled_terms.ExperimentalApproach
+  technique: controlled_terms.Technique
+
+  # Organization/Person fields
+  affiliation: controlled_terms.OrganizationType
+
+  # Anatomy fields
+  anatomicalLocation: controlled_terms.UBERONParcellation  # Most common
+
+  # Genetic fields
+  strain: controlled_terms.GeneticStrainType
+  phenotype: controlled_terms.Phenotype

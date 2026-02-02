@@ -1,14 +1,82 @@
 openminds_version: latest
 
+# Schemas organized by openMINDS module and category
+# Generate elements with: uv run openminds2cedar generate <module>.<Schema>
+
 schemas:
   core:
-    - Subject
-    - SubjectState
-    - SubjectGroup
-    - SubjectGroupState
-    - TissueSample
-    - TissueSampleState
-    - Dataset
-    - DatasetVersion
-    - Person
-    - Organization
+    # Research specimens
+    research:
+      - Subject
+      - SubjectState
+      - SubjectGroup
+      - SubjectGroupState
+      - TissueSample
+      - TissueSampleState
+      - TissueSampleCollection
+      - TissueSampleCollectionState
+      - Strain
+
+    # Data and files
+    data:
+      - Dataset
+      - DatasetVersion
+      - File
+      - FileBundle
+      - FileRepository
+
+    # Actors and organizations
+    actors:
+      - Person
+      - Organization
+      - Affiliation
+      - ContactInformation
+      - Contribution
+
+    # Products and models
+    products:
+      - Software
+      - SoftwareVersion
+      - Model
+      - ModelVersion
+      - MetaDataModel
+      - MetaDataModelVersion
+
+    # Protocols and methods
+    methods:
+      - Protocol
+      - ProtocolExecution
+      - BehavioralProtocol
+      - Setup
+
+    # Miscellaneous
+    misc:
+      - Project
+      - Funding
+      - License
+
+  # Spatial data (SANDS)
+  sands:
+    - BrainAtlas
+    - BrainAtlasVersion
+    - CommonCoordinateSpace
+    - CommonCoordinateSpaceVersion
+    - CoordinatePoint
+    - CustomAnatomicalEntity
+    - ParcellationEntity
+    - ParcellationEntityVersion
+
+  # Electrophysiology
+  ephys:
+    - Recording
+    - RecordingActivity
+    - Channel
+    - Electrode
+    - ElectrodeArray
+    - ElectrodePlacement
+
+  # Specimen preparation
+  specimen_prep:
+    - TissueSampleSlicing
+    - TissueCulturePreparation
+    - CranialWindowPreparation
