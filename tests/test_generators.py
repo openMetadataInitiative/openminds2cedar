@@ -33,6 +33,18 @@ def test_generate_core_elements(element_generator, schema):
     assert len(element["_ui"]["order"]) > 0
 
 
+@pytest.mark.parametrize("schema", CORE_SCHEMAS)
+def test_elements_validate_via_cedar_api(element_generator, schema):
+    """Test that generated elements validate via CEDAR API."""
+    from openminds2cedar.api import CEDARClient
+
+    client = CEDARClient()
+    element = element_generator.generate(schema)
+
+    result = client.validate(element, "element")
+    assert result["valid"], f"CEDAR validation failed for {schema}: {result['errors']}"
+
+
 def test_generate_element(element_generator, registry):
     """Test element has correct structure, properties, UI, and metadata."""
     element = element_generator.generate("core.Subject")
