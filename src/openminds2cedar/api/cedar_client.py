@@ -89,7 +89,8 @@ class CEDARClient:
 
         upload_data = data.copy()
         # Clear local URN IDs - CEDAR assigns real IDs on upload
-        if upload_data.get("@id", "").startswith("urn:"):
+        id_val = upload_data.get("@id")
+        if id_val and id_val.startswith("urn:"):
             upload_data["@id"] = None
         timestamp = datetime.now(timezone.utc).isoformat()
         upload_data["pav:createdOn"] = timestamp

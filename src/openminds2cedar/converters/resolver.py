@@ -3,6 +3,33 @@
 import openminds.latest as om
 
 
+def _build_type_registry() -> dict[str, type]:
+    """Build mapping of type URIs to openMINDS classes.
+
+    Scans all openMINDS modules and maps type_ URIs to their classes.
+    E.g., "https://openminds.om-i.org/types/Subject" -> om.core.Subject
+    """
+    registry = {}
+    modules = ["core", "controlled_terms", "sands", "ephys", "computation", "publications"]
+
+    for module_name in modules:
+        module = getattr(om, module_name, None)
+        if not module:
+            continue
+        for class_name in dir(module):
+            if class_name.startswith("_"):
+                continue
+            cls = getattr(module, class_name)
+            if hasattr(cls, "type_") and isinstance(cls.type_, str):
+                registry[cls.type_] = cls
+
+    return registry
+
+
+# Build registry once at import time
+TYPE_REGISTRY = _build_type_registry()
+
+
 class Resolver:
     """Resolve openMINDS classes and controlled terms."""
 
@@ -38,3 +65,30 @@ class Resolver:
             [{"label": i.name, "id": i.id} for i in term_class.instances()],
             key=lambda x: x["label"],
         )
+
+    def get_class_by_type_uri(self, type_uri: str) -> type | None:
+        """Get openMINDS class by its type URI.
+
+        E.g., "https://openminds.om-i.org/types/Subject" -> om.core.Subject
+        """
+        return TYPE_REGISTRY.get(type_uri)
+
+    def get_property_info(self, om_class: type) -> dict[str, dict]:
+        """Get property information for an openMINDS class.
+
+        Returns dict mapping snake_case property names to their metadata:
+        {
+            "species": {"path": "species", "required": True, ...},
+            "biological_sex": {"path": "biologicalSex", "required": False, ...},
+        }
+        """
+        if not hasattr(om_class, "properties"):
+            return {}
+
+        props = {}
+        for prop in om_class.properties:
+            props[prop.name] = {
+                "path": prop.path,  # camelCase JSON-LD path
+                "required": getattr(prop, "required", False),
+            }
+        return props

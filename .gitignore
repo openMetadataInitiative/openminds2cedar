@@ -27,3 +27,6 @@ htmlcov/
 
 # Generated output
 output/
+
+# Script temp files
+scripts/tmp/

@@ -82,8 +82,8 @@ def test_instance_workflow(generated_template, mock_subject_data, mock_subjectst
     """Test instance creation, CEDAR validation, and openMINDS conversion."""
     client = CEDARClient()
     templates = client.list_folder(client.folders["templates"])
-    template_id = next((t["@id"] for t in templates if t.get("schema:name") == "1subject-Nstates"), None)
-    assert template_id, "Published template '1subject-Nstates' not found"
+    template_id = next((t["@id"] for t in templates if t.get("schema:name") == "subject-study"), None)
+    assert template_id, "Published template 'subject-study' not found"
 
     instance_gen = CEDARInstanceGenerator(generated_template, template_id=template_id)
     instance = instance_gen.create(

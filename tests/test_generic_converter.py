@@ -1,31 +1,16 @@
 """Test generic CEDAR to openMINDS conversion."""
 
-import pytest
-
 from openminds2cedar.converters import CEDARToOpenMINDSConverter
+from tests.fixtures import (
+    sample_cedar_instance,
+    person_instance,
+    tissue_sample_instance,
+)
 
 
 def test_convert_subject_with_state_validates():
     """Test that converted Subject + SubjectState passes openMINDS validation."""
-    instance = {
-        "@context": {
-            "subject": "https://openminds.om-i.org/types/Subject",
-            "subjectstate": "https://openminds.om-i.org/types/SubjectState",
-        },
-        "subject": {
-            "@context": {},
-            "@id": "https://example.org/subject/1",
-            "biological_sex": {"@value": "male"},
-            "species": {"@value": "Mus musculus"},
-            "internal_identifier": {"@value": "sub-001"},
-            "lookup_label": {"@value": "Test Subject"},
-        },
-        "subjectstate": {
-            "@context": {},
-            "@id": "https://example.org/state/1",
-            "age_category": {"@value": "adult"},
-        },
-    }
+    instance = sample_cedar_instance()
 
     converter = CEDARToOpenMINDSConverter()
     collection = converter.convert_instance(instance)
@@ -45,20 +30,9 @@ def test_convert_subject_with_state_validates():
         assert not failures, f"{type(obj).__name__} validation failed: {failures}"
 
 
-@pytest.mark.xfail(reason="Generic converter not yet implemented")
 def test_convert_person_validates():
     """Test that converted Person passes openMINDS validation."""
-    instance = {
-        "@context": {
-            "person": "https://openminds.om-i.org/types/Person",
-        },
-        "person": {
-            "@context": {},
-            "@id": "https://example.org/person/1",
-            "given_name": {"@value": "John"},
-            "family_name": {"@value": "Doe"},
-        },
-    }
+    instance = person_instance()
 
     converter = CEDARToOpenMINDSConverter()
     collection = converter.convert_instance(instance)
@@ -74,33 +48,21 @@ def test_convert_person_validates():
     assert not failures, f"Person validation failed: {failures}"
 
 
-@pytest.mark.xfail(reason="Generic converter not yet implemented")
 def test_convert_tissue_sample_validates():
     """Test that converted TissueSample passes openMINDS validation."""
-    instance = {
-        "@context": {
-            "tissuesample": "https://openminds.om-i.org/types/TissueSample",
-            "tissuesamplestate": "https://openminds.om-i.org/types/TissueSampleState",
-        },
-        "tissuesample": {
-            "@context": {},
-            "@id": "https://example.org/sample/1",
-            "type": {"@value": "tissue sample"},
-            "internal_identifier": {"@value": "sample-001"},
-            "lookup_label": {"@value": "Test Sample"},
-        },
-        "tissuesamplestate": {
-            "@context": {},
-            "@id": "https://example.org/samplestate/1",
-            "internal_identifier": {"@value": "state-001"},
-        },
-    }
+    instance = tissue_sample_instance()
 
     converter = CEDARToOpenMINDSConverter()
     collection = converter.convert_instance(instance)
 
     samples = [o for o in collection if type(o).__name__ == "TissueSample"]
+    states = [o for o in collection if type(o).__name__ == "TissueSampleState"]
     assert len(samples) == 1, "Expected 1 TissueSample"
+    assert len(states) == 1, "Expected 1 TissueSampleState"
+
+    # TissueSample should be linked to TissueSampleState
+    assert samples[0].studied_states is not None
+    assert samples[0].studied_states[0] is states[0]
 
     for obj in collection:
         failures = obj.validate()
