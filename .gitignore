@@ -2,20 +2,9 @@
 __pycache__/
 *.py[cod]
 *.so
+*.egg-info/
 dist/
 build/
-
-# Jupyter
-.ipynb_checkpoints
-
-# Quarto
-notebooks/*.html
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-.DS_Store
 
 # Environment
 .env
@@ -25,8 +14,16 @@ notebooks/*.html
 .coverage
 htmlcov/
 
-# Generated output
-output/
+# IDEs
+.vscode/
+.idea/
+*.swp
+.DS_Store
 
-# Script temp files
-scripts/tmp/
+# Notebooks
+.ipynb_checkpoints/
+notebooks/*.html
+
+# Generated
+output/
+tmp/
