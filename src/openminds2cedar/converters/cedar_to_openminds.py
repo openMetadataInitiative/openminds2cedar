@@ -51,20 +51,20 @@ class CEDARToOpenMINDSConverter:
         """Convert subject element to openMINDS Subject."""
         return om.core.Subject(
             species=self._resolve_term(data, "species", om.controlled_terms.Species),
-            biological_sex=self._resolve_term(data, "biologicalSex", om.controlled_terms.BiologicalSex),
-            internal_identifier=self._get_value(data, "internalIdentifier"),
-            lookup_label=self._get_value(data, "lookupLabel"),
+            biological_sex=self._resolve_term(data, "biological_sex", om.controlled_terms.BiologicalSex),
+            internal_identifier=self._get_value(data, "internal_identifier"),
+            lookup_label=self._get_value(data, "lookup_label"),
             studied_states=subject_states if subject_states else None,
         )
 
     def _convert_subject_state(self, data: dict) -> om.core.SubjectState:
         """Convert subjectstate element to openMINDS SubjectState."""
         return om.core.SubjectState(
-            age_category=self._resolve_term(data, "ageCategory", om.controlled_terms.AgeCategory),
+            age_category=self._resolve_term(data, "age_category", om.controlled_terms.AgeCategory),
             handedness=self._resolve_term(data, "handedness", om.controlled_terms.Handedness),
-            internal_identifier=self._get_value(data, "internalIdentifier"),
-            lookup_label=self._get_value(data, "lookupLabel"),
-            additional_remarks=self._get_value(data, "additionalRemarks"),
+            internal_identifier=self._get_value(data, "internal_identifier"),
+            lookup_label=self._get_value(data, "lookup_label"),
+            additional_remarks=self._get_value(data, "additional_remarks"),
         )
 
     def _get_value(self, data: dict, field: str) -> str | None:

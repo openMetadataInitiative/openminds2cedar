@@ -39,9 +39,9 @@ CEDAR_METADATA = {
 }
 
 
-def camel_to_title(name: str) -> str:
-    """Convert camelCase to Title Case."""
-    return re.sub(r"([a-z])([A-Z])", r"\1 \2", name).title()
+def snake_to_title(name: str) -> str:
+    """Convert snake_case to Title Case."""
+    return name.replace("_", " ").title()
 
 
 class CEDARElementGenerator:
@@ -78,13 +78,13 @@ class CEDARElementGenerator:
             "additionalProperties": False,
         }
 
-        # Populate UI and required from properties
+        # Populate UI and required from properties (use prop.name for snake_case)
         for prop in om_class.properties:
-            element["_ui"]["order"].append(prop.path)
-            element["_ui"]["propertyLabels"][prop.path] = camel_to_title(prop.path)
-            element["_ui"]["propertyDescriptions"][prop.path] = prop.description or ""
+            element["_ui"]["order"].append(prop.name)
+            element["_ui"]["propertyLabels"][prop.name] = snake_to_title(prop.name)
+            element["_ui"]["propertyDescriptions"][prop.name] = prop.description or ""
             if prop.required:
-                element["required"].append(prop.path)
+                element["required"].append(prop.name)
 
         return element
 
@@ -110,7 +110,7 @@ class CEDARElementGenerator:
             },
         }
         for prop in om_class.properties:
-            props[prop.path] = self._create_field(prop)
+            props[prop.name] = self._create_field(prop)
         return props
 
     def _create_field(self, prop) -> dict:
@@ -121,11 +121,11 @@ class CEDARElementGenerator:
             "@id": f"https://repo.metadatacenter.org/template-fields/{uuid.uuid4()}",
             "@context": {**BASE_CONTEXT, "skos:prefLabel": {"@type": "xsd:string"}, "skos:altLabel": {"@type": "xsd:string"}},
             "type": "object",
-            "title": f"{prop.path} field schema",
-            "description": prop.description or f"{prop.path} field",
-            "schema:name": prop.path,
+            "title": f"{prop.name} field schema",
+            "description": prop.description or f"{prop.name} field",
+            "schema:name": prop.name,
             "schema:description": prop.description or "",
-            "skos:prefLabel": camel_to_title(prop.path),
+            "skos:prefLabel": snake_to_title(prop.name),
             **CEDAR_METADATA,
             "_ui": {"inputType": "textfield"},
             "_valueConstraints": {"requiredValue": prop.required},
@@ -145,9 +145,9 @@ class CEDARElementGenerator:
         if prop.required:
             field["required"] = ["@value"]
 
-        # Check for controlled term via registry
-        if self.registry.has_field(prop.path):
-            field_config = self.registry.field(prop.path)
+        # Check for controlled term via registry (use prop.name for snake_case lookup)
+        if self.registry.has_field(prop.name):
+            field_config = self.registry.field(prop.name)
             if "term_class" in field_config:
                 self._add_controlled_term(field, field_config["term_class"], prop.multiple)
 

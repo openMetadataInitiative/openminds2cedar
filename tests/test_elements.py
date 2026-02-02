@@ -50,9 +50,9 @@ def test_element_structure(element_generator, registry):
     assert element["openminds:schemaVersion"] == registry.openminds_version
     assert element["openminds:sourceType"] == "https://openminds.om-i.org/types/Subject"
 
-    # Has properties from openMINDS schema
+    # Has properties from openMINDS schema (snake_case names)
     assert "species" in element["properties"]
-    assert "biologicalSex" in element["properties"]
+    assert "biological_sex" in element["properties"]
 
     # Controlled term fields have value constraints
     species_field = element["properties"]["species"]

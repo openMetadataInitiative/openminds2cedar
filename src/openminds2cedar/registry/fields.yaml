@@ -1,17 +1,18 @@
 # Controlled term fields - specify term_class for vocabulary lookup
 # Fields not listed here are handled as text fields by default
+# Use snake_case field names (matching openMINDS Python API)
 
 controlled_terms:
   # Subject/SubjectState fields
   species: controlled_terms.Species
-  biologicalSex: controlled_terms.BiologicalSex
-  ageCategory: controlled_terms.AgeCategory
+  biological_sex: controlled_terms.BiologicalSex
+  age_category: controlled_terms.AgeCategory
   handedness: controlled_terms.Handedness
   attribute: controlled_terms.SubjectAttribute  # Also TissueSampleAttribute
 
   # Disease and pathology
   disease: controlled_terms.Disease
-  diseaseModel: controlled_terms.DiseaseModel
+  disease_model: controlled_terms.DiseaseModel
   pathology: controlled_terms.Disease  # Can also be DiseaseModel
 
   # Tissue sample fields
@@ -21,13 +22,13 @@ controlled_terms:
 
   # Dataset fields
   accessibility: controlled_terms.ProductAccessibility
-  dataType: controlled_terms.SemanticDataType
-  ethicsAssessment: controlled_terms.EthicsAssessment
-  experimentalApproach: controlled_terms.ExperimentalApproach
+  data_type: controlled_terms.SemanticDataType
+  ethics_assessment: controlled_terms.EthicsAssessment
+  experimental_approach: controlled_terms.ExperimentalApproach
   technique: controlled_terms.Technique
 
   # Anatomy fields
-  anatomicalLocation: controlled_terms.UBERONParcellation  # Most common
+  anatomical_location: controlled_terms.UBERONParcellation  # Most common
 
   # Genetic fields
   strain: controlled_terms.GeneticStrainType

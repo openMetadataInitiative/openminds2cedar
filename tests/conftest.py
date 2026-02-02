@@ -54,23 +54,22 @@ def instance_generator(generated_template):
 
 @pytest.fixture
 def mock_subject_data():
-    """Mock data for a mouse subject."""
+    """Mock data for a mouse subject (snake_case field names)."""
     return {
-        "biologicalSex": "male",
-        "internalIdentifier": "sub-mouse01",
-        "lookupLabel": "Mouse 01",
+        "biological_sex": "male",
+        "internal_identifier": "sub-mouse01",
+        "lookup_label": "Mouse 01",
         "species": "Mus musculus",
-        "studiedState": "baseline",
     }
 
 
 @pytest.fixture
 def mock_subjectstate_data():
-    """Mock data for subject state."""
+    """Mock data for subject state (snake_case field names)."""
     return {
-        "ageCategory": "adult",
-        "internalIdentifier": "ses-01",
-        "lookupLabel": "Baseline Recording",
+        "age_category": "adult",
+        "internal_identifier": "ses-01",
+        "lookup_label": "Baseline Recording",
     }
 
 
@@ -78,7 +77,7 @@ def mock_subjectstate_data():
 
 @pytest.fixture
 def sample_cedar_instance():
-    """A complete CEDAR instance with subject and subjectstate."""
+    """A complete CEDAR instance with subject and subjectstate (snake_case fields)."""
     return {
         "@context": {
             "subject": "https://openminds.om-i.org/types/Subject",
@@ -88,27 +87,19 @@ def sample_cedar_instance():
         "subject": {
             "@context": {},
             "@id": "https://example.org/subject/1",
-            "biologicalSex": {"@value": "male"},
-            "internalIdentifier": {"@value": "sub-001"},
-            "lookupLabel": {"@value": "Test Subject"},
+            "biological_sex": {"@value": "male"},
+            "internal_identifier": {"@value": "sub-001"},
+            "lookup_label": {"@value": "Test Subject"},
             "species": {"@value": "Mus musculus"},
-            "studiedState": {"@value": "baseline"},
-            "isPartOf": {"@value": None},
         },
         "subjectstate": {
             "@context": {},
             "@id": "https://example.org/subjectstate/1",
-            "ageCategory": {"@value": "adult"},
+            "age_category": {"@value": "adult"},
             "handedness": {"@value": None},
-            "internalIdentifier": {"@value": "ses-001"},
-            "lookupLabel": {"@value": "Test Session"},
-            "additionalRemarks": {"@value": "Test remarks"},
-            "age": {"@value": None},
-            "weight": {"@value": None},
-            "attribute": {"@value": None},
-            "descendedFrom": {"@value": None},
-            "pathology": {"@value": None},
-            "relativeTimeIndication": {"@value": None},
+            "internal_identifier": {"@value": "ses-001"},
+            "lookup_label": {"@value": "Test Session"},
+            "additional_remarks": {"@value": "Test remarks"},
         },
     }
 
@@ -120,16 +111,14 @@ def instance_with_nulls():
         "subject": {
             "@context": {},
             "@id": "https://example.org/subject/1",
-            "biologicalSex": {"@value": None},
+            "biological_sex": {"@value": None},
             "species": {"@value": "Mus musculus"},
-            "internalIdentifier": {"@value": None},
-            "lookupLabel": {"@value": None},
-            "studiedState": {"@value": None},
-            "isPartOf": {"@value": None},
+            "internal_identifier": {"@value": None},
+            "lookup_label": {"@value": None},
         },
         "subjectstate": {
             "@context": {},
             "@id": "https://example.org/subjectstate/1",
-            "ageCategory": {"@value": "adult"},
+            "age_category": {"@value": "adult"},
         },
     }
