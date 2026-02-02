@@ -1,35 +1,161 @@
-# Controlled term fields - specify term_class for vocabulary lookup
-# Fields not listed here are handled as text fields by default
+# Field configurations for CEDAR element generation
+#
+# Available input_type values (from CEDAR API validation):
+#   textfield       - Single-line text input (also for URLs)
+#   textarea        - Multi-line text input
+#   numeric         - Number input (integer, decimal, float)
+#   temporal        - Date/time picker
+#   radio           - Single choice (mutually exclusive, few options)
+#   checkbox        - Multiple choice selection
+#   list            - Single choice dropdown (many options)
+#   email           - Email address input
+#   phone-number    - Phone number input
+#   boolean         - True/false toggle
+#   attribute-value - Dynamic key-value pairs
+#
+# Cardinality (single vs multiple values):
+#   - By default, uses openMINDS schema's `multiple` property
+#   - Override with `multiple: true/false` in config
+#   - checkbox = multiple values, radio/list = single value
+#   - Default for controlled terms: checkbox if multiple, list if single
+#
+# Reference: https://metadatacenter.readthedocs.io/en/latest/developer-guide/
+#
+# Format:
+#   field_name:
+#     term_class: controlled_terms.ClassName  # for controlled term fields
+#     input_type: <type>  # optional, auto-detected based on cardinality + count
+#     multiple: true/false  # optional, override openMINDS schema cardinality
+#     help_text: "Help text shown to user"  # optional
+#
 # Use snake_case field names (matching openMINDS Python API)
 
-controlled_terms:
+fields:
+  # ============================================================================
   # Subject/SubjectState fields
-  species: controlled_terms.Species
-  biological_sex: controlled_terms.BiologicalSex
-  age_category: controlled_terms.AgeCategory
-  handedness: controlled_terms.Handedness
-  attribute: controlled_terms.SubjectAttribute  # Also TissueSampleAttribute
+  # ============================================================================
+  species:
+    term_class: controlled_terms.Species
+    input_type: list  # single value, many options
+    help_text: "Species of the subject"
+  biological_sex:
+    term_class: controlled_terms.BiologicalSex
+    input_type: radio  # single value, few options
+  age_category:
+    term_class: controlled_terms.AgeCategory
+    input_type: radio  # single value, few options
+  handedness:
+    term_class: controlled_terms.Handedness
+    input_type: radio  # single value, few options
+  attribute:
+    term_class: controlled_terms.SubjectAttribute
+    multiple: true  # allows multiple attributes
+    input_type: checkbox
+  weight:
+    input_type: numeric
+    help_text: "Body weight of the subject"
 
+  # ============================================================================
   # Disease and pathology
-  disease: controlled_terms.Disease
-  disease_model: controlled_terms.DiseaseModel
-  pathology: controlled_terms.Disease  # Can also be DiseaseModel
+  # ============================================================================
+  disease:
+    term_class: controlled_terms.Disease
+    input_type: list
+  disease_model:
+    term_class: controlled_terms.DiseaseModel
+    input_type: list
+  pathology:
+    term_class: controlled_terms.Disease
+    input_type: list
 
+  # ============================================================================
   # Tissue sample fields
-  type: controlled_terms.TissueSampleType
-  laterality: controlled_terms.Laterality
-  origin: controlled_terms.Organ  # Can also be CellType, OrganismSubstance
+  # ============================================================================
+  type:
+    term_class: controlled_terms.TissueSampleType
+    input_type: list
+  laterality:
+    term_class: controlled_terms.Laterality
+    input_type: radio
+  origin:
+    term_class: controlled_terms.Organ
+    input_type: list
+    help_text: "Anatomical origin of the sample"
 
+  # ============================================================================
   # Dataset fields
-  accessibility: controlled_terms.ProductAccessibility
-  data_type: controlled_terms.SemanticDataType
-  ethics_assessment: controlled_terms.EthicsAssessment
-  experimental_approach: controlled_terms.ExperimentalApproach
-  technique: controlled_terms.Technique
+  # ============================================================================
+  accessibility:
+    term_class: controlled_terms.ProductAccessibility
+    input_type: radio  # single value
+  data_type:
+    term_class: controlled_terms.SemanticDataType
+    multiple: true  # datasets can have multiple data types
+    input_type: checkbox
+  ethics_assessment:
+    term_class: controlled_terms.EthicsAssessment
+    input_type: radio  # single value
+  experimental_approach:
+    term_class: controlled_terms.ExperimentalApproach
+    multiple: true  # can combine multiple approaches
+    input_type: checkbox
+  technique:
+    term_class: controlled_terms.Technique
+    multiple: true  # can use multiple techniques
+    input_type: checkbox
 
+  # ============================================================================
   # Anatomy fields
-  anatomical_location: controlled_terms.UBERONParcellation  # Most common
+  # ============================================================================
+  anatomical_location:
+    term_class: controlled_terms.UBERONParcellation
+    input_type: list
 
+  # ============================================================================
   # Genetic fields
-  strain: controlled_terms.GeneticStrainType
-  phenotype: controlled_terms.Phenotype
+  # ============================================================================
+  strain:
+    term_class: controlled_terms.GeneticStrainType
+    input_type: list
+  phenotype:
+    term_class: controlled_terms.Phenotype
+    input_type: list
+
+  # ============================================================================
+  # Common text fields
+  # ============================================================================
+  internal_identifier:
+    input_type: textfield
+    help_text: "Unique identifier within your project"
+  lookup_label:
+    input_type: textfield
+    help_text: "Human-readable label for quick lookup"
+  given_name:
+    input_type: textfield
+  family_name:
+    input_type: textfield
+  additional_remarks:
+    input_type: textarea
+    help_text: "Any additional notes or comments"
+
+  # ============================================================================
+  # Contact/reference fields
+  # ============================================================================
+  email:
+    input_type: email
+  homepage:
+    input_type: textfield
+    help_text: "Website URL"
+  digital_identifier:
+    input_type: textfield
+    help_text: "DOI, ORCID, or other persistent identifier URL"
+  repository:
+    input_type: textfield
+    help_text: "URL to data repository"
+
+  # ============================================================================
+  # Temporal fields
+  # ============================================================================
+  release_date:
+    input_type: temporal
+    help_text: "Date of release or publication"

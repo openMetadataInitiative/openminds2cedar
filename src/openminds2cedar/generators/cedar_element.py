@@ -115,6 +115,17 @@ class CEDARElementGenerator:
 
     def _create_field(self, prop) -> dict:
         """Create a CEDAR field from an openMINDS property."""
+        field_config = self.registry.field(prop.name) if self.registry.has_field(prop.name) else {}
+
+        # Use help_text from config, fall back to openMINDS description
+        description = field_config.get("help_text") or prop.description or f"{prop.name} field"
+
+        # Determine if field allows multiple values (registry override or openMINDS schema)
+        multiple = field_config.get("multiple", prop.multiple)
+
+        # Construct openMINDS property URI from prop.path (camelCase)
+        property_uri = f"https://openminds.om-i.org/props/{prop.path}"
+
         field = {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "@type": "https://schema.metadatacenter.org/core/TemplateField",
@@ -122,12 +133,14 @@ class CEDARElementGenerator:
             "@context": {**BASE_CONTEXT, "skos:prefLabel": {"@type": "xsd:string"}, "skos:altLabel": {"@type": "xsd:string"}},
             "type": "object",
             "title": f"{prop.name} field schema",
-            "description": prop.description or f"{prop.name} field",
+            "description": description,
             "schema:name": prop.name,
-            "schema:description": prop.description or "",
+            "schema:description": description,
             "skos:prefLabel": snake_to_title(prop.name),
             **CEDAR_METADATA,
-            "_ui": {"inputType": "textfield"},
+            # openMINDS property annotation
+            "openminds:propertyUri": property_uri,
+            "_ui": {"inputType": field_config.get("input_type", "textfield")},
             "_valueConstraints": {"requiredValue": prop.required},
             "additionalProperties": False,
             "properties": {
@@ -145,28 +158,26 @@ class CEDARElementGenerator:
         if prop.required:
             field["required"] = ["@value"]
 
-        # Check for controlled term via registry (use prop.name for snake_case lookup)
-        if self.registry.has_field(prop.name):
-            field_config = self.registry.field(prop.name)
-            if "term_class" in field_config:
-                self._add_controlled_term(field, field_config["term_class"], prop.multiple)
+        # Add controlled term options if specified
+        if "term_class" in field_config:
+            self._add_controlled_term(field, field_config, multiple)
 
         return field
 
-    def _add_controlled_term(self, field: dict, term_class: str, multiple: bool) -> None:
-        """Add controlled term options to field."""
-        options = self.resolver.get_options(term_class)
-        count = len(options)
+    def _add_controlled_term(self, field: dict, field_config: dict, multiple: bool) -> None:
+        """Add controlled term options to field.
 
-        # UI selection based on count
-        if multiple:
-            field["_ui"]["inputType"] = "checkbox"
-        elif count <= 3:
-            field["_ui"]["inputType"] = "radio"
-        elif count <= 10:
-            field["_ui"]["inputType"] = "list"
-        else:
-            field["_ui"]["inputType"] = "textfield"
+        Args:
+            field: CEDAR field dict to modify
+            field_config: Registry config with term_class and input_type
+            multiple: Whether field allows multiple values
+        """
+        options = self.resolver.get_options(field_config["term_class"])
+
+        # Use input_type from config (required for controlled terms in registry)
+        # Default: checkbox for multiple, list for single
+        input_type = field_config.get("input_type", "checkbox" if multiple else "list")
+        field["_ui"]["inputType"] = input_type
 
         field["_valueConstraints"]["literals"] = [{"label": o["label"]} for o in options]
         field["_valueConstraints"]["multipleChoice"] = multiple
