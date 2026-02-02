@@ -98,22 +98,35 @@ class CEDARToOpenMINDSConverter:
         return None
 
     def _link_objects(self, converted_objects: dict[str, list]):
-        """Link objects that reference each other.
+        """Link objects based on property type compatibility.
 
-        E.g., Subject.studied_states -> SubjectState objects
+        Introspects each object's properties and links to matching converted objects.
+        Skips controlled terms (identified by having 'by_name' method).
         """
-        # Define known relationships: (source_element, target_element, property_name)
-        relationships = [
-            ("subject", "subjectstate", "studied_states"),
-            ("tissuesample", "tissuesamplestate", "studied_states"),
-        ]
+        # Map class -> objects (skip controlled terms)
+        linkable: dict[type, list] = {}
+        for objects in converted_objects.values():
+            if objects:
+                cls = type(objects[0])
+                if not hasattr(cls, "by_name"):  # Not a controlled term
+                    linkable[cls] = objects
 
-        for source_elem, target_elem, prop_name in relationships:
-            if source_elem in converted_objects and target_elem in converted_objects:
-                targets = converted_objects[target_elem]
-                for source_obj in converted_objects[source_elem]:
-                    if hasattr(source_obj, prop_name):
-                        setattr(source_obj, prop_name, targets if targets else None)
+        # For each non-controlled-term object, check link properties
+        for objects in converted_objects.values():
+            for obj in objects:
+                cls = type(obj)
+                if hasattr(cls, "by_name"):
+                    continue
+
+                for prop in cls.properties:
+                    if not prop.is_link:
+                        continue
+                    # Check if any allowed type matches a linkable object
+                    for allowed_type in prop.types:
+                        if allowed_type in linkable:
+                            targets = linkable[allowed_type]
+                            setattr(obj, prop.name, targets if prop.multiple else targets[0])
+                            break
 
     def _get_value(self, data: dict, field: str) -> str | None:
         """Extract value from CEDAR field structure.
