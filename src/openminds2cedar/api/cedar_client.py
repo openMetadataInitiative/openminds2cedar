@@ -28,6 +28,7 @@ class CEDARClient:
             "elements": os.getenv("CEDAR_FOLDER_ELEMENTS"),
             "templates": os.getenv("CEDAR_FOLDER_TEMPLATES"),
             "instances": os.getenv("CEDAR_FOLDER_INSTANCES"),
+            "test": os.getenv("CEDAR_FOLDER_TEST"),
         }
 
     def _headers(self) -> dict:
@@ -38,20 +39,22 @@ class CEDARClient:
         }
 
     def validate(self, element: dict) -> dict:
-        """Validate element. Returns {"valid": bool, "errors": [...]}."""
+        """Validate element. Returns {"valid": bool, "errors": [], "warnings": []}."""
         url = f"{self.base_url}/command/validate"
         params = {"resource_type": "element"}
 
         resp = requests.post(url, json=element, params=params, headers=self._headers(), timeout=self.timeout)
 
         if resp.status_code == 200:
-            return {"valid": True, "errors": []}
-
-        try:
             data = resp.json()
-            return {"valid": False, "errors": data.get("errors", [resp.text])}
-        except Exception:
-            return {"valid": False, "errors": [resp.text]}
+            is_valid = str(data.get("validates", "")).lower() == "true"
+            return {
+                "valid": is_valid,
+                "errors": data.get("errors", []),
+                "warnings": data.get("warnings", []),
+            }
+
+        return {"valid": False, "errors": [resp.text], "warnings": []}
 
     def upload(self, element: dict, folder_id: str | None = None) -> dict:
         """Upload element. Returns {"success": bool, "id": str | None, "error": str | None}."""
@@ -108,20 +111,22 @@ class CEDARClient:
         return None
 
     def validate_template(self, template: dict) -> dict:
-        """Validate template. Returns {"valid": bool, "errors": [...]}."""
+        """Validate template. Returns {"valid": bool, "errors": [], "warnings": []}."""
         url = f"{self.base_url}/command/validate"
         params = {"resource_type": "template"}
 
         resp = requests.post(url, json=template, params=params, headers=self._headers(), timeout=self.timeout)
 
         if resp.status_code == 200:
-            return {"valid": True, "errors": []}
-
-        try:
             data = resp.json()
-            return {"valid": False, "errors": data.get("errors", [resp.text])}
-        except Exception:
-            return {"valid": False, "errors": [resp.text]}
+            is_valid = str(data.get("validates", "")).lower() == "true"
+            return {
+                "valid": is_valid,
+                "errors": data.get("errors", []),
+                "warnings": data.get("warnings", []),
+            }
+
+        return {"valid": False, "errors": [resp.text], "warnings": []}
 
     def list_folder(self, folder_id: str) -> list[dict]:
         """List contents of a folder."""

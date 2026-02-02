@@ -26,8 +26,4 @@ notebooks/*.html
 htmlcov/
 
 # Generated output
-output/cedar_elements/*.json
-output/cedar_elements/conversion_report.json
-
-# Keep directory structure
-!output/cedar_elements/.gitkeep
+output/

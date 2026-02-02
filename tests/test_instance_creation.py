@@ -1,8 +1,8 @@
 """
 Test creating CEDAR instances from mock data and uploading via API.
 
-Template: subject-test-2 (Subject + SubjectState elements)
-ID: https://repo.metadatacenter.org/templates/a717ed35-b095-4395-b5a6-73d1e7d03443
+Template: subject-study (Subject + SubjectState elements)
+ID: https://repo.metadatacenter.org/templates/86c9a946-f040-40ac-bdd1-f86cb81304b8
 """
 
 import json
@@ -16,7 +16,7 @@ from openminds2cedar.api.cedar_client import CEDARClient
 
 
 # Template configuration
-TEMPLATE_ID = "https://repo.metadatacenter.org/templates/a717ed35-b095-4395-b5a6-73d1e7d03443"
+TEMPLATE_ID = "https://repo.metadatacenter.org/templates/86c9a946-f040-40ac-bdd1-f86cb81304b8"
 
 # Property URIs from template @context - using openMINDS type URIs
 SUBJECT_IRI = "https://openminds.om-i.org/types/Subject"

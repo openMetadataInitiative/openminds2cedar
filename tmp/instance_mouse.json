@@ -1,0 +1,106 @@
+{
+  "@context": {
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "pav": "http://purl.org/pav/",
+    "schema": "http://schema.org/",
+    "oslc": "http://open-services.net/ns/core#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "skos:notation": {
+      "@type": "xsd:string"
+    },
+    "pav:derivedFrom": {
+      "@type": "@id"
+    },
+    "pav:createdOn": {
+      "@type": "xsd:dateTime"
+    },
+    "pav:createdBy": {
+      "@type": "@id"
+    },
+    "pav:lastUpdatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "oslc:modifiedBy": {
+      "@type": "@id"
+    },
+    "schema:isBasedOn": {
+      "@type": "@id"
+    },
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "schema:description": {
+      "@type": "xsd:string"
+    },
+    "schema:name": {
+      "@type": "xsd:string"
+    },
+    "subject": "https://openminds.om-i.org/types/Subject",
+    "subjectstate": "https://openminds.om-i.org/types/SubjectState"
+  },
+  "schema:isBasedOn": "https://repo.metadatacenter.org/templates/86c9a946-f040-40ac-bdd1-f86cb81304b8",
+  "schema:name": "Mouse_C57BL6_Control_01",
+  "schema:description": "C57BL/6J mouse - control group, baseline recording",
+  "pav:createdOn": "2026-02-02T09:31:38.804059+01:00",
+  "pav:lastUpdatedOn": "2026-02-02T09:31:38.804059+01:00",
+  "subject": {
+    "@context": {},
+    "@id": "https://repo.metadatacenter.org/template-element-instances/7baac2ce-9f87-48f8-9be4-03cb677aae63",
+    "biologicalSex": {
+      "@value": "male"
+    },
+    "internalIdentifier": {
+      "@value": "sub-mouse01"
+    },
+    "isPartOf": {
+      "@value": null
+    },
+    "lookupLabel": {
+      "@value": "Mouse 01 - C57BL/6J Control"
+    },
+    "species": {
+      "@value": "Mus musculus"
+    },
+    "studiedState": {
+      "@value": "baseline"
+    }
+  },
+  "subjectstate": {
+    "@context": {},
+    "@id": "https://repo.metadatacenter.org/template-element-instances/02903744-38c4-4243-ad4c-4d491a5f6e86",
+    "additionalRemarks": {
+      "@value": "Good signal quality, normal behavior"
+    },
+    "age": {
+      "@value": "90 days"
+    },
+    "ageCategory": {
+      "@value": "adult"
+    },
+    "attribute": {
+      "@value": null
+    },
+    "descendedFrom": {
+      "@value": null
+    },
+    "handedness": {
+      "@value": null
+    },
+    "internalIdentifier": {
+      "@value": "ses-baseline"
+    },
+    "lookupLabel": {
+      "@value": "Mouse 01 - Baseline Session"
+    },
+    "pathology": {
+      "@value": null
+    },
+    "relativeTimeIndication": {
+      "@value": null
+    },
+    "weight": {
+      "@value": "25.3 g"
+    }
+  }
+}

@@ -4,6 +4,7 @@ Version: 0.1.0
 Summary: Generate CEDAR template elements from openMINDS schemas
 Requires-Python: >=3.12
 Description-Content-Type: text/markdown
+Requires-Dist: jsonschema>=4.20.0
 Requires-Dist: openminds>=0.4.0
 Requires-Dist: python-dotenv>=1.2.1
 Requires-Dist: pyyaml>=6.0.3
@@ -11,37 +12,95 @@ Requires-Dist: requests>=2.32.5
 
 # openminds2cedar
 
-Generate CEDAR template elements from openMINDS schemas.
+Generate CEDAR template elements from openMINDS schemas and convert filled instances back to openMINDS-LD.
 
 ## Quick Start
 
 ```bash
-# Install dependencies
 uv sync
-
-# Generate a CEDAR element
-uv run openminds2cedar generate Subject
-
-# Convert a filled CEDAR instance to openMINDS
-uv run openminds2cedar convert instance.json -o output.jsonld
+cp .env.example .env  # Edit with your CEDAR API key
 ```
 
-## Architecture
+## CLI
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module overview.
+```bash
+# Generate CEDAR element from openMINDS schema
+uv run openminds2cedar generate core.Subject
+
+# Publish elements to CEDAR
+uv run openminds2cedar publish output/elements/
+
+# Sync resources from CEDAR
+uv run openminds2cedar sync
+
+# Convert CEDAR instances to openMINDS
+uv run openminds2cedar convert data/cedar/instances/
+```
+
+## Workflow
+
+**Developer**: Generate elements locally, publish to CEDAR when ready
+
+```bash
+uv run openminds2cedar generate core.Subject
+uv run openminds2cedar generate core.SubjectState
+uv run openminds2cedar publish output/elements/
+```
+
+**Curator**: Sync instances from CEDAR, convert to openMINDS
+
+```bash
+uv run openminds2cedar sync
+uv run openminds2cedar convert data/cedar/instances/
+```
+
+## Python API
+
+```python
+from openminds2cedar.generators import CEDARElementGenerator
+from openminds2cedar.converters import CEDARToOpenMINDSConverter
+from openminds2cedar.api import CEDARClient
+
+# Generate element
+gen = CEDARElementGenerator()
+element = gen.generate("core.Subject")
+
+# Upload to CEDAR
+client = CEDARClient()
+client.upload(element)
+
+# Convert instance to openMINDS
+converter = CEDARToOpenMINDSConverter()
+collection = converter.convert("data/cedar/instances/my_instance.json")
+collection.save("output/openminds/")
+```
 
 ## Project Structure
 
 ```
 src/openminds2cedar/
-├── registry/       # Schema and field configuration (YAML)
-├── generators/     # CEDAR element generation
+├── api/            # CEDAR Workbench API client
 ├── converters/     # CEDAR → openMINDS conversion
-└── api/            # CEDAR Workbench API client
+├── generators/     # CEDAR element/template generation
+└── registry/       # Schema and field configuration (YAML)
+
+data/cedar/         # Synced CEDAR resources
+├── elements/
+├── templates/
+└── instances/
 ```
 
 ## Configuration
 
+Copy `.env.example` to `.env` and set:
+
+```bash
+CEDAR_API_KEY=your-api-key
+CEDAR_FOLDER_ELEMENTS=https://repo.metadatacenter.org/folders/your-folder-id
+CEDAR_FOLDER_TEMPLATES=https://repo.metadatacenter.org/folders/your-folder-id
+CEDAR_FOLDER_INSTANCES=https://repo.metadatacenter.org/folders/your-folder-id
+```
+
+Registry files (schema/field config):
 - `registry/schemas.yaml` - Which openMINDS schemas to generate
-- `registry/fields.yaml` - Field-level configuration
-- `config.yaml` - Runtime config (API keys, paths)
+- `registry/fields.yaml` - Field mappings and controlled term classes

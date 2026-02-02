@@ -46,6 +46,10 @@ class CEDARElementGenerator:
             "schema:description": om_class.__doc__ or "",
             "schema:schemaVersion": "1.6.0",
             "pav:version": "0.0.1",
+            "pav:createdOn": None,
+            "pav:createdBy": None,
+            "pav:lastUpdatedOn": None,
+            "oslc:modifiedBy": None,
             "bibo:status": "bibo:draft",
             # Versioning metadata
             "openminds:schemaVersion": self.registry.openminds_version,

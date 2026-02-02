@@ -39,41 +39,41 @@
     "subject": "https://openminds.om-i.org/types/Subject",
     "subjectstate": "https://openminds.om-i.org/types/SubjectState"
   },
-  "schema:isBasedOn": "https://repo.metadatacenter.org/templates/a717ed35-b095-4395-b5a6-73d1e7d03443",
-  "schema:name": "Mouse_C57BL6_Control_01",
-  "schema:description": "C57BL/6J mouse - control group, baseline recording",
-  "pav:createdOn": "2026-02-01T23:12:15-08:00",
-  "pav:lastUpdatedOn": "2026-02-01T23:12:15-08:00",
+  "schema:isBasedOn": "https://repo.metadatacenter.org/templates/86c9a946-f040-40ac-bdd1-f86cb81304b8",
+  "schema:name": "Macaque_M1_Trained_Adult",
+  "schema:description": "Adult macaque with electrode implant - motor cortex study",
+  "pav:createdOn": "2026-02-02T09:31:39.952672+01:00",
+  "pav:lastUpdatedOn": "2026-02-02T09:31:39.952672+01:00",
   "subject": {
     "@context": {},
-    "@id": "https://repo.metadatacenter.org/template-element-instances/6e3c34bd-f632-4180-8957-309940d2d5d9",
+    "@id": "https://repo.metadatacenter.org/template-element-instances/0162b785-8e58-49ff-8dd2-b0ffe0cfdc19",
     "biologicalSex": {
-      "@value": "male"
+      "@value": "female"
     },
     "internalIdentifier": {
-      "@value": "sub-mouse01"
+      "@value": "sub-monkey01"
     },
     "isPartOf": {
       "@value": null
     },
     "lookupLabel": {
-      "@value": "Mouse 01 - C57BL/6J Control"
+      "@value": "Macaque M1 - Trained Adult"
     },
     "species": {
-      "@value": "Mus musculus"
+      "@value": "Macaca mulatta"
     },
     "studiedState": {
-      "@value": "baseline"
+      "@value": "trained"
     }
   },
   "subjectstate": {
     "@context": {},
-    "@id": "https://repo.metadatacenter.org/template-element-instances/0ca477fe-a3ac-4c69-bbda-83ac8f32b05f",
+    "@id": "https://repo.metadatacenter.org/template-element-instances/4848a054-6225-4027-9f8a-76e214081567",
     "additionalRemarks": {
-      "@value": "Good signal quality, normal behavior"
+      "@value": "Fully trained on reach task, consistent performance"
     },
     "age": {
-      "@value": "90 days"
+      "@value": "5.5 years"
     },
     "ageCategory": {
       "@value": "adult"
@@ -85,13 +85,13 @@
       "@value": null
     },
     "handedness": {
-      "@value": null
+      "@value": "right handedness"
     },
     "internalIdentifier": {
-      "@value": "ses-baseline"
+      "@value": "ses-presurg"
     },
     "lookupLabel": {
-      "@value": "Mouse 01 - Baseline Session"
+      "@value": "M1 - Pre-Surgery Baseline"
     },
     "pathology": {
       "@value": null
@@ -100,10 +100,7 @@
       "@value": null
     },
     "weight": {
-      "@value": "25.3 g"
+      "@value": "6.2 kg"
     }
-  },
-  "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-  "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-  "@id": "https://repo.metadatacenter.org/template-instances/def7793d-8ff4-45e7-9ae1-e9681ed6a824"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "@type": "https://schema.metadatacenter.org/core/TemplateElement",
-  "@id": "https://repo.metadatacenter.org/template-elements/949f3e89-b538-4e07-a0f6-b9d4f0c0eedd",
+  "@id": "https://repo.metadatacenter.org/template-elements/abbb675b-bca9-4046-9103-92c27e1a54a3",
   "type": "object",
   "title": "Subject element schema",
   "description": "\nStructured information on a subject.\n\nArgs\n----\nbiological_sex : ~openminds.latest.controlled_terms.biological_sex.BiologicalSex\n    Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.\ninternal_identifier : str\n    Term or code that identifies the subject within a particular product.\nis_part_of : ~openminds.latest.core.research.subject_group.SubjectGroup\n    Reference to the ensemble of multiple things or beings.\nlookup_label : str\n    no description available\nspecies : ~openminds.latest.controlled_terms.species.Species, ~openminds.latest.core.research.strain.Strain\n    Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.\nstudied_states : ~openminds.latest.core.research.subject_state.SubjectState\n    Reference to a point in time at which the subject was studied in a particular mode or condition.\n\n",
@@ -8,9 +8,13 @@
   "schema:description": "\nStructured information on a subject.\n\nArgs\n----\nbiological_sex : ~openminds.latest.controlled_terms.biological_sex.BiologicalSex\n    Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.\ninternal_identifier : str\n    Term or code that identifies the subject within a particular product.\nis_part_of : ~openminds.latest.core.research.subject_group.SubjectGroup\n    Reference to the ensemble of multiple things or beings.\nlookup_label : str\n    no description available\nspecies : ~openminds.latest.controlled_terms.species.Species, ~openminds.latest.core.research.strain.Strain\n    Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.\nstudied_states : ~openminds.latest.core.research.subject_state.SubjectState\n    Reference to a point in time at which the subject was studied in a particular mode or condition.\n\n",
   "schema:schemaVersion": "1.6.0",
   "pav:version": "0.0.1",
+  "pav:createdOn": "2026-02-02T00:26:31-08:00",
+  "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+  "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
+  "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
   "bibo:status": "bibo:draft",
   "openminds:schemaVersion": "latest",
-  "openminds:generatedAt": "2026-02-02T07:06:30.478362+00:00",
+  "openminds:generatedAt": "2026-02-02T08:24:09.717167+00:00",
   "openminds:sourceType": "https://openminds.om-i.org/types/Subject",
   "@context": {
     "xsd": "http://www.w3.org/2001/XMLSchema#",
@@ -67,7 +71,7 @@
     },
     "biologicalSex": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/f98c6d85-ceae-4869-b4c0-8d809187c564",
+      "@id": "https://repo.metadatacenter.org/template-fields/cb5f1524-1ee4-434c-a7d3-2bc5c3b495a0",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -108,9 +112,9 @@
       "schema:description": "Differentiation of individuals of most species (animals and plants) based on the type of gametes they produce.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Biological Sex",
-      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdOn": "2026-02-02T00:26:31-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "list"
@@ -169,7 +173,7 @@
     },
     "internalIdentifier": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/3ece1a15-4c14-47f0-bad3-e1c717917d2c",
+      "@id": "https://repo.metadatacenter.org/template-fields/561c01e9-553e-417b-9cf9-51a7bcc7ecda",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -210,9 +214,9 @@
       "schema:description": "Term or code that identifies the subject within a particular product.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Internal Identifier",
-      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdOn": "2026-02-02T00:26:31-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -256,7 +260,7 @@
     },
     "isPartOf": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/1fae6930-b6a6-4108-9fb0-270e07be438c",
+      "@id": "https://repo.metadatacenter.org/template-fields/8bd04130-736f-4682-9e49-a85a798782a2",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -297,9 +301,9 @@
       "schema:description": "Reference to the ensemble of multiple things or beings.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Is Part Of",
-      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdOn": "2026-02-02T00:26:31-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -343,7 +347,7 @@
     },
     "lookupLabel": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/2865db24-bf52-4931-b94c-647a82c8232a",
+      "@id": "https://repo.metadatacenter.org/template-fields/cbcf1ead-5606-4e31-8286-20fd40f96368",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -384,9 +388,9 @@
       "schema:description": "no description available",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Lookup Label",
-      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdOn": "2026-02-02T00:26:31-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -430,7 +434,7 @@
     },
     "species": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/2bdcff80-d57c-4ba1-93d9-e67d0230e233",
+      "@id": "https://repo.metadatacenter.org/template-fields/df546fd8-7261-487f-a22a-c3cd87e87508",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -471,9 +475,9 @@
       "schema:description": "Category of biological classification comprising related organisms or populations potentially capable of interbreeding, and being designated by a binomial that consists of the name of a genus followed by a Latin or latinized uncapitalized noun or adjective.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Species",
-      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdOn": "2026-02-02T00:26:31-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -601,7 +605,7 @@
     },
     "studiedState": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/359e1cd8-6f03-4e53-b024-7d910983f959",
+      "@id": "https://repo.metadatacenter.org/template-fields/9d2d92b0-595a-4f35-834e-7b3369e552b3",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -642,9 +646,9 @@
       "schema:description": "Reference to a point in time at which the subject was studied in a particular mode or condition.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Studied State",
-      "pav:createdOn": "2026-02-01T23:06:32-08:00",
+      "pav:createdOn": "2026-02-02T00:26:31-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:31-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -723,9 +727,5 @@
     "studiedState"
   ],
   "additionalProperties": false,
-  "pav:createdOn": "2026-02-01T23:06:32-08:00",
-  "pav:lastUpdatedOn": "2026-02-01T23:06:32-08:00",
-  "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-  "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
   "$schema": "http://json-schema.org/draft-04/schema#"
 }

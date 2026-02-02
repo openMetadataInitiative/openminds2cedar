@@ -1,6 +1,6 @@
 {
   "@type": "https://schema.metadatacenter.org/core/TemplateElement",
-  "@id": "https://repo.metadatacenter.org/template-elements/15b1f7bc-fdc9-4f6f-ba07-7148ff353471",
+  "@id": "https://repo.metadatacenter.org/template-elements/6ac888c0-84e4-4f22-a44e-3a341cc773aa",
   "type": "object",
   "title": "SubjectState element schema",
   "description": "\nStructured information on a temporary state of a subject.\n\nArgs\n----\nadditional_remarks : str\n    Mention of what deserves additional attention or notice.\nage : ~openminds.latest.core.miscellaneous.quantitative_value.QuantitativeValue, ~openminds.latest.core.miscellaneous.quantitative_value_range.QuantitativeValueRange\n    Time of life or existence at which some particular qualification, capacity or event arises.\nage_category : ~openminds.latest.controlled_terms.age_category.AgeCategory\n    Distinct life cycle class that is defined by a similar age or age range (developmental stage) within a group of individual beings.\nattributes : ~openminds.latest.controlled_terms.subject_attribute.SubjectAttribute\n    no description available\ndescended_from : ~openminds.latest.core.research.subject_state.SubjectState\n    no description available\nhandedness : ~openminds.latest.controlled_terms.handedness.Handedness\n    Degree to which an organism prefers one hand or foot over the other hand or foot during the performance of a task.\ninternal_identifier : str\n    Term or code that identifies the subject state within a particular product.\nlookup_label : str\n    no description available\npathologies : ~openminds.latest.controlled_terms.disease.Disease, ~openminds.latest.controlled_terms.disease_model.DiseaseModel\n    Structural and functional deviation from the normal that constitutes a disease or characterizes a particular disease.\nrelative_time_indication : ~openminds.latest.core.miscellaneous.quantitative_value.QuantitativeValue, ~openminds.latest.core.miscellaneous.quantitative_value_range.QuantitativeValueRange\n    no description available\nweight : ~openminds.latest.core.miscellaneous.quantitative_value.QuantitativeValue, ~openminds.latest.core.miscellaneous.quantitative_value_range.QuantitativeValueRange\n    Amount that a thing or being weighs.\n\n",
@@ -8,9 +8,13 @@
   "schema:description": "\nStructured information on a temporary state of a subject.\n\nArgs\n----\nadditional_remarks : str\n    Mention of what deserves additional attention or notice.\nage : ~openminds.latest.core.miscellaneous.quantitative_value.QuantitativeValue, ~openminds.latest.core.miscellaneous.quantitative_value_range.QuantitativeValueRange\n    Time of life or existence at which some particular qualification, capacity or event arises.\nage_category : ~openminds.latest.controlled_terms.age_category.AgeCategory\n    Distinct life cycle class that is defined by a similar age or age range (developmental stage) within a group of individual beings.\nattributes : ~openminds.latest.controlled_terms.subject_attribute.SubjectAttribute\n    no description available\ndescended_from : ~openminds.latest.core.research.subject_state.SubjectState\n    no description available\nhandedness : ~openminds.latest.controlled_terms.handedness.Handedness\n    Degree to which an organism prefers one hand or foot over the other hand or foot during the performance of a task.\ninternal_identifier : str\n    Term or code that identifies the subject state within a particular product.\nlookup_label : str\n    no description available\npathologies : ~openminds.latest.controlled_terms.disease.Disease, ~openminds.latest.controlled_terms.disease_model.DiseaseModel\n    Structural and functional deviation from the normal that constitutes a disease or characterizes a particular disease.\nrelative_time_indication : ~openminds.latest.core.miscellaneous.quantitative_value.QuantitativeValue, ~openminds.latest.core.miscellaneous.quantitative_value_range.QuantitativeValueRange\n    no description available\nweight : ~openminds.latest.core.miscellaneous.quantitative_value.QuantitativeValue, ~openminds.latest.core.miscellaneous.quantitative_value_range.QuantitativeValueRange\n    Amount that a thing or being weighs.\n\n",
   "schema:schemaVersion": "1.6.0",
   "pav:version": "0.0.1",
+  "pav:createdOn": "2026-02-02T00:26:32-08:00",
+  "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
+  "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
+  "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
   "bibo:status": "bibo:draft",
   "openminds:schemaVersion": "latest",
-  "openminds:generatedAt": "2026-02-02T07:06:32.666940+00:00",
+  "openminds:generatedAt": "2026-02-02T08:24:10.457239+00:00",
   "openminds:sourceType": "https://openminds.om-i.org/types/SubjectState",
   "@context": {
     "xsd": "http://www.w3.org/2001/XMLSchema#",
@@ -67,7 +71,7 @@
     },
     "additionalRemarks": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/9c2b121e-7c9f-4138-b566-af1bee626053",
+      "@id": "https://repo.metadatacenter.org/template-fields/c79654dd-c7d7-4089-bda4-da0dd098d072",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -108,9 +112,9 @@
       "schema:description": "Mention of what deserves additional attention or notice.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Additional Remarks",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -154,7 +158,7 @@
     },
     "age": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/a4dd9193-300b-4cd7-afec-ddba5a4b7a75",
+      "@id": "https://repo.metadatacenter.org/template-fields/876a9f71-aa26-4581-a98b-b5e47f9754eb",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -195,9 +199,9 @@
       "schema:description": "Time of life or existence at which some particular qualification, capacity or event arises.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Age",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -241,7 +245,7 @@
     },
     "ageCategory": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/057665bc-1650-4eff-b13f-9839340993eb",
+      "@id": "https://repo.metadatacenter.org/template-fields/962aced6-dd60-4304-9df3-29d2662673e9",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -282,9 +286,9 @@
       "schema:description": "Distinct life cycle class that is defined by a similar age or age range (developmental stage) within a group of individual beings.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Age Category",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "list"
@@ -364,7 +368,7 @@
     },
     "attribute": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/3f366361-445c-4da1-96ab-99ef1b8c5ed7",
+      "@id": "https://repo.metadatacenter.org/template-fields/17f17bf2-04f1-4606-aee6-d6c94fe826b2",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -405,9 +409,9 @@
       "schema:description": "no description available",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Attribute",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -451,7 +455,7 @@
     },
     "descendedFrom": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/e1e1d0e9-84de-4f55-9b8e-75c5b412bb0a",
+      "@id": "https://repo.metadatacenter.org/template-fields/12751c39-44b4-4778-bf1b-2aefc2e0ba35",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -492,9 +496,9 @@
       "schema:description": "no description available",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Descended From",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -538,7 +542,7 @@
     },
     "handedness": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/a4aa22b2-a960-4bfe-8315-245c3380eb4b",
+      "@id": "https://repo.metadatacenter.org/template-fields/deae7063-3b05-40a8-bda5-81cbafd415d1",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -579,9 +583,9 @@
       "schema:description": "Degree to which an organism prefers one hand or foot over the other hand or foot during the performance of a task.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Handedness",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "list"
@@ -643,7 +647,7 @@
     },
     "internalIdentifier": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/717b1fdd-2f31-417f-820e-1da95159866e",
+      "@id": "https://repo.metadatacenter.org/template-fields/0ba3334e-19af-42d2-a789-040b456d97c8",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -684,9 +688,9 @@
       "schema:description": "Term or code that identifies the subject state within a particular product.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Internal Identifier",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -730,7 +734,7 @@
     },
     "lookupLabel": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/055c34e4-1040-4467-9613-6d6e96d38a39",
+      "@id": "https://repo.metadatacenter.org/template-fields/c2d65ade-7b2c-4916-b9d8-89044518e099",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -771,9 +775,9 @@
       "schema:description": "no description available",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Lookup Label",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -817,7 +821,7 @@
     },
     "pathology": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/e9e79da5-38de-46a1-8a3e-d90c37ce7069",
+      "@id": "https://repo.metadatacenter.org/template-fields/bf8ef6de-5a11-453e-92ef-3883dc73e3e1",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -858,9 +862,9 @@
       "schema:description": "Structural and functional deviation from the normal that constitutes a disease or characterizes a particular disease.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Pathology",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -904,7 +908,7 @@
     },
     "relativeTimeIndication": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/05d748dc-365e-4c64-b9e0-cb6eac104e9a",
+      "@id": "https://repo.metadatacenter.org/template-fields/0ef9363e-87f5-40fa-bd82-85fe0e1f6bfc",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -945,9 +949,9 @@
       "schema:description": "no description available",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Relative Time Indication",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -991,7 +995,7 @@
     },
     "weight": {
       "@type": "https://schema.metadatacenter.org/core/TemplateField",
-      "@id": "https://repo.metadatacenter.org/template-fields/8ae1df6a-45f3-4310-af88-cb4e88060cad",
+      "@id": "https://repo.metadatacenter.org/template-fields/a12143c6-e379-4b47-aa1c-9a44e6b8597f",
       "@context": {
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "pav": "http://purl.org/pav/",
@@ -1032,9 +1036,9 @@
       "schema:description": "Amount that a thing or being weighs.",
       "schema:schemaVersion": "1.6.0",
       "skos:prefLabel": "Weight",
-      "pav:createdOn": "2026-02-01T23:06:34-08:00",
+      "pav:createdOn": "2026-02-02T00:26:32-08:00",
       "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-      "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
+      "pav:lastUpdatedOn": "2026-02-02T00:26:32-08:00",
       "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
       "_ui": {
         "inputType": "textfield"
@@ -1124,9 +1128,5 @@
     "ageCategory"
   ],
   "additionalProperties": false,
-  "pav:createdOn": "2026-02-01T23:06:34-08:00",
-  "pav:lastUpdatedOn": "2026-02-01T23:06:34-08:00",
-  "pav:createdBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
-  "oslc:modifiedBy": "https://metadatacenter.org/users/f3d8067f-c204-45c0-8fb1-8393e486593c",
   "$schema": "http://json-schema.org/draft-04/schema#"
 }
