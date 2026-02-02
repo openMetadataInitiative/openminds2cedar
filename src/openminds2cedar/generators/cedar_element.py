@@ -99,8 +99,19 @@ class CEDARElementGenerator:
 
     def _create_properties(self, om_class) -> dict:
         """Create CEDAR properties from openMINDS class."""
+        # Build @context with property URI mappings for each field
+        context_properties = {}
+        for prop in om_class.properties:
+            # Map field name to openMINDS property URI (camelCase path)
+            property_uri = f"https://openminds.om-i.org/props/{prop.path}"
+            context_properties[prop.name] = {"enum": [property_uri]}
+
         props = {
-            "@context": {"type": "object", "properties": {}, "additionalProperties": False},
+            "@context": {
+                "type": "object",
+                "properties": context_properties,
+                "additionalProperties": False,
+            },
             "@id": {"type": "string", "format": "uri"},
             "@type": {
                 "oneOf": [
@@ -123,9 +134,6 @@ class CEDARElementGenerator:
         # Determine if field allows multiple values (registry override or openMINDS schema)
         multiple = field_config.get("multiple", prop.multiple)
 
-        # Construct openMINDS property URI from prop.path (camelCase)
-        property_uri = f"https://openminds.om-i.org/props/{prop.path}"
-
         field = {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "@type": "https://schema.metadatacenter.org/core/TemplateField",
@@ -138,8 +146,6 @@ class CEDARElementGenerator:
             "schema:description": description,
             "skos:prefLabel": snake_to_title(prop.name),
             **CEDAR_METADATA,
-            # openMINDS property annotation
-            "openminds:propertyUri": property_uri,
             "_ui": {"inputType": field_config.get("input_type", "textfield")},
             "_valueConstraints": {"requiredValue": prop.required},
             "additionalProperties": False,

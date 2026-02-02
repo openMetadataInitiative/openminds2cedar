@@ -117,9 +117,6 @@ fields:
   strain:
     term_class: controlled_terms.GeneticStrainType
     input_type: list
-  phenotype:
-    term_class: controlled_terms.Phenotype
-    input_type: list
 
   # ============================================================================
   # Common text fields

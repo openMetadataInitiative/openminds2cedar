@@ -133,6 +133,6 @@ Registry files (schema/field/template config):
 ## Roadmap
 
 - [x] **Generic converter**: Schema-driven conversion using `@context` types and property introspection
-- [ ] **Declarative UI**: Configure field UI (inputType, help text) in `fields.yaml`
+- [x] **Declarative UI**: Configure field UI (inputType, help text, cardinality) in `fields.yaml`
 - [ ] **CLI**: Command-line interface for generate/validate/publish/convert workflows
-- [x] **Property annotations**: Add openMINDS property URIs to CEDAR fields (e.g., `https://openminds.om-i.org/props/species`)
+- [x] **Property annotations**: Add openMINDS property URIs to CEDAR element `@context`

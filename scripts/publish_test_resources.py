@@ -1,28 +1,25 @@
 #!/usr/bin/env python
-"""Helper script to clear and repopulate CEDAR test folder, then validate conversion.
+"""Helper script to clear and repopulate CEDAR test folder with all registry resources.
 
 Usage:
     uv run python scripts/publish_test_resources.py
 
 This script:
 1. Clears all resources from CEDAR test folders
-2. Generates and uploads elements (Subject, SubjectState, etc.)
-3. Generates and uploads templates
-4. Uploads test instances using shared fixtures from tests/fixtures
-5. Downloads and converts instances to openMINDS
-6. Validates converted objects using openMINDS validator
+2. Generates and uploads ALL elements from registry (organized by module)
+3. Generates and uploads ALL templates from registry
+4. Saves generated resources locally with folder structure
 """
 
+import json
 import sys
-sys.path.insert(0, ".")  # Allow importing from tests/fixtures
+from pathlib import Path
 
-from openminds2cedar.generators import CEDARElementGenerator, CEDARTemplateGenerator, CEDARInstanceGenerator
+sys.path.insert(0, ".")
+
+from openminds2cedar.generators import CEDARElementGenerator, CEDARTemplateGenerator
 from openminds2cedar.registry import Registry
 from openminds2cedar.api import CEDARClient
-from openminds2cedar.converters import CEDARToOpenMINDSConverter
-
-# Import shared fixtures (single source of truth)
-from tests.fixtures import MOCK_SUBJECT_DATA, MOCK_SUBJECTSTATE_DATA
 
 
 def main():
@@ -30,7 +27,8 @@ def main():
     registry = Registry()
     element_gen = CEDARElementGenerator(registry=registry)
     template_gen = CEDARTemplateGenerator()
-    converter = CEDARToOpenMINDSConverter()
+
+    output_dir = Path("output")
 
     # =========================================================================
     # Step 1: Clear all resources
@@ -42,162 +40,153 @@ def main():
     print()
 
     # =========================================================================
-    # Step 2: Generate and upload elements
+    # Step 2: Generate and upload ALL elements from registry (organized by module)
     # =========================================================================
     print("=" * 60)
-    print("Step 2: Uploading Elements")
+    print("Step 2: Generating and Uploading Elements")
     print("=" * 60)
-    schemas = [
-        "core.Subject",
-        "core.SubjectState",
-        "core.TissueSample",
-        "core.TissueSampleState",
-        "core.Person",
-    ]
+
+    schemas = registry.schemas
+    print(f"Found {len(schemas)} schemas in registry\n")
+
+    # Group schemas by module
+    schemas_by_module = {}
+    for schema in schemas:
+        module, name = schema.split(".")
+        schemas_by_module.setdefault(module, []).append(schema)
+
+    # Create subfolders on CEDAR for each module
+    print("Creating subfolders on CEDAR...")
+    module_folders = {}
+    elements_parent = client.folders["elements"]
+    for module in schemas_by_module.keys():
+        folder_id = client.get_or_create_subfolder(module, elements_parent)
+        if folder_id:
+            module_folders[module] = folder_id
+            print(f"  + {module}/")
+        else:
+            print(f"  ! Failed to create folder: {module}/")
+    print()
+
+    success_count = 0
+    fail_count = 0
+    uploaded_elements = {}
 
     for schema in schemas:
-        element = element_gen.generate(schema)
-        result = client.upload(element, "element")
-        if result["success"]:
-            print(f"  + {schema}")
-        else:
-            print(f"  ! {schema}: {result['error'][:80]}")
+        module, name = schema.split(".")
+        try:
+            # Generate element
+            element = element_gen.generate(schema)
 
-    print()
+            # Save locally (organized by module)
+            element_dir = output_dir / "elements" / module
+            element_dir.mkdir(parents=True, exist_ok=True)
+            element_path = element_dir / f"{name.lower()}.json"
+            with open(element_path, "w") as f:
+                json.dump(element, f, indent=2)
 
-    # Fetch elements with real IDs from CEDAR
-    uploaded_elements = {}
-    for item in client.list_folder(client.folders["elements"]):
-        element = client.get_element(item["@id"])
-        if element:
-            name = element.get("schema:name")
-            uploaded_elements[name] = element
+            # Upload to CEDAR (in module subfolder)
+            target_folder = module_folders.get(module, elements_parent)
+            result = client.upload(element, "element", folder_id=target_folder)
+            if result["success"]:
+                print(f"  + {schema}")
+                success_count += 1
+            else:
+                print(f"  ! {schema}: {result['error'][:80]}")
+                fail_count += 1
 
-    # =========================================================================
-    # Step 3: Generate and upload templates
-    # =========================================================================
-    print("=" * 60)
-    print("Step 3: Uploading Templates")
-    print("=" * 60)
+        except Exception as e:
+            print(f"  ! {schema}: {str(e)[:80]}")
+            fail_count += 1
 
-    # subject-study: Subject + SubjectState (1:N)
-    subject = uploaded_elements["subject"]
-    subjectstate = uploaded_elements["subjectstate"]
-    template1 = template_gen.generate(
-        elements=[subject, subjectstate],
-        element_ids=[subject["@id"], subjectstate["@id"]],
-        name="subject-study",
-        description="Subject with multiple states",
-        cardinalities=[False, True],
-    )
-    result = client.upload_template(template1)
-    print(f"  + subject-study" if result["success"] else f"  ! subject-study: {result['error'][:80]}")
+    print(f"\nElements: {success_count} uploaded, {fail_count} failed\n")
 
-    # tissue-sample-study: TissueSample + TissueSampleState (1:N)
-    tissuesample = uploaded_elements["tissuesample"]
-    tissuesamplestate = uploaded_elements["tissuesamplestate"]
-    template2 = template_gen.generate(
-        elements=[tissuesample, tissuesamplestate],
-        element_ids=[tissuesample["@id"], tissuesamplestate["@id"]],
-        name="tissue-sample-study",
-        description="Tissue sample with multiple states",
-        cardinalities=[False, True],
-    )
-    result = client.upload_template(template2)
-    print(f"  + tissue-sample-study" if result["success"] else f"  ! tissue-sample-study: {result['error'][:80]}")
-
-    # person-metadata: Person only
-    person = uploaded_elements["person"]
-    template3 = template_gen.generate(
-        elements=[person],
-        element_ids=[person["@id"]],
-        name="person-metadata",
-        description="Person metadata capture",
-        cardinalities=[False],
-    )
-    result = client.upload_template(template3)
-    print(f"  + person-metadata" if result["success"] else f"  ! person-metadata: {result['error'][:80]}")
-
-    print()
-
-    # Fetch templates with real IDs
-    templates = {}
-    for item in client.list_folder(client.folders["templates"]):
-        template = client.get_template(item["@id"])
-        if template:
-            name = template.get("schema:name")
-            templates[name] = template
+    # Fetch uploaded elements with real IDs (from all module subfolders)
+    print("Fetching uploaded elements with real IDs...")
+    for folder_id in module_folders.values():
+        for item in client.list_folder(folder_id):
+            element = client.get_element(item["@id"])
+            if element:
+                name = element.get("schema:name")
+                uploaded_elements[name] = element
+    print(f"  Retrieved {len(uploaded_elements)} elements\n")
 
     # =========================================================================
-    # Step 4: Upload test instances (using shared fixtures)
+    # Step 3: Generate and upload ALL templates from registry
     # =========================================================================
     print("=" * 60)
-    print("Step 4: Uploading Test Instances")
+    print("Step 3: Generating and Uploading Templates")
     print("=" * 60)
 
-    # Instance using MOCK_SUBJECT_DATA + MOCK_SUBJECTSTATE_DATA from tests/fixtures
-    subject_template = templates["subject-study"]
-    instance_gen = CEDARInstanceGenerator(subject_template)
-    instance1 = instance_gen.create(
-        name="Test_Instance",
-        description="Test instance using shared fixtures",
-        subject_data=MOCK_SUBJECT_DATA.copy(),
-        subjectstate_data=MOCK_SUBJECTSTATE_DATA.copy(),
-    )
-    result = client.upload_instance(instance1)
-    instance1_id = result.get("id")
-    print(f"  + Test_Instance" if result["success"] else f"  ! Test_Instance: {result['error'][:80]}")
+    template_names = registry.templates
+    print(f"Found {len(template_names)} templates in registry\n")
 
-    print()
+    template_success = 0
+    template_fail = 0
 
-    # =========================================================================
-    # Step 5: Download instances and convert to openMINDS
-    # =========================================================================
-    print("=" * 60)
-    print("Step 5: Converting to openMINDS")
-    print("=" * 60)
+    for template_name in template_names:
+        try:
+            template_def = registry.template(template_name)
 
-    # Fetch the uploaded instance
-    if instance1_id:
-        cedar_instance = client.get_instance(instance1_id)
-        if cedar_instance:
-            print(f"  Fetched: {cedar_instance.get('schema:name')}")
+            # Collect elements and cardinalities for this template
+            elements = []
+            element_ids = []
+            cardinalities = []
 
-            # Convert to openMINDS
-            collection = converter.convert_instance(cedar_instance)
-            print(f"  Converted: {len(list(collection))} objects")
+            for elem_def in template_def["elements"]:
+                schema_path = elem_def["schema"]
+                module, schema_name = schema_path.split(".")
+                element_key = schema_name.lower()
 
-            for obj in collection:
-                print(f"    - {type(obj).__name__}")
+                if element_key not in uploaded_elements:
+                    print(f"  ! {template_name}: Missing element '{element_key}'")
+                    continue
 
-    print()
+                element = uploaded_elements[element_key]
+                elements.append(element)
+                element_ids.append(element["@id"])
+                cardinalities.append(elem_def.get("multiple", False))
 
-    # =========================================================================
-    # Step 6: Validate converted objects
-    # =========================================================================
-    print("=" * 60)
-    print("Step 6: Validating openMINDS objects")
-    print("=" * 60)
+            if len(elements) != len(template_def["elements"]):
+                template_fail += 1
+                continue
 
-    all_valid = True
-    for obj in collection:
-        failures = obj.validate()
-        if failures:
-            print(f"  ! {type(obj).__name__}: {failures}")
-            all_valid = False
-        else:
-            print(f"  + {type(obj).__name__}: valid")
+            # Generate template
+            # Use registry key as schema:name (for lookup), display name in description
+            display_name = template_def.get("name", template_name)
+            description = template_def.get("description", "")
+            if display_name != template_name:
+                description = f"{display_name}: {description}"
 
-    print()
+            template = template_gen.generate(
+                elements=elements,
+                element_ids=element_ids,
+                name=template_name,  # Registry key for consistent lookup
+                description=description,
+                cardinalities=cardinalities,
+            )
 
-    # =========================================================================
-    # Step 7: Sync to local (tmp folder)
-    # =========================================================================
-    print("=" * 60)
-    print("Step 7: Syncing to scripts/tmp/")
-    print("=" * 60)
-    client.sync_to_local("scripts/tmp")
-    print()
+            # Save locally
+            template_dir = output_dir / "templates"
+            template_dir.mkdir(parents=True, exist_ok=True)
+            template_path = template_dir / f"{template_name}.json"
+            with open(template_path, "w") as f:
+                json.dump(template, f, indent=2)
+
+            # Upload to CEDAR
+            result = client.upload_template(template)
+            if result["success"]:
+                print(f"  + {template_name}")
+                template_success += 1
+            else:
+                print(f"  ! {template_name}: {result['error'][:80]}")
+                template_fail += 1
+
+        except Exception as e:
+            print(f"  ! {template_name}: {str(e)[:80]}")
+            template_fail += 1
+
+    print(f"\nTemplates: {template_success} uploaded, {template_fail} failed\n")
 
     # =========================================================================
     # Summary
@@ -205,28 +194,38 @@ def main():
     print("=" * 60)
     print("Summary")
     print("=" * 60)
-    print(f"Elements:   {len(list(client.list_folder(client.folders['elements'])))}")
-    print(f"Templates:  {len(list(client.list_folder(client.folders['templates'])))}")
-    print(f"Instances:  {len(list(client.list_folder(client.folders['instances'])))}")
-    print(f"Validation: {'PASSED' if all_valid else 'FAILED'}")
+
+    tmpl_count = len(list(client.list_folder(client.folders["templates"])))
+
+    print(f"Elements:   {success_count} on CEDAR (organized in {len(module_folders)} module folders)")
+    print(f"Templates:  {tmpl_count} on CEDAR")
+    print(f"\nLocal output: {output_dir}/")
+    print(f"  elements/  - {success_count} files (organized by module)")
+    print(f"  templates/ - {template_success} files")
 
     print()
     print("Resource URLs:")
     print("-" * 60)
 
-    print("\nElements:")
-    for item in client.list_folder(client.folders["elements"]):
-        print(f"  {item.get('schema:name')}: {item['@id']}")
+    print("\nElement Folders:")
+    for module, folder_id in sorted(module_folders.items()):
+        count = len(list(client.list_folder(folder_id)))
+        print(f"  {module}/ ({count} elements): {folder_id}")
 
     print("\nTemplates:")
     for item in client.list_folder(client.folders["templates"]):
         print(f"  {item.get('schema:name')}: {item['@id']}")
 
-    print("\nInstances:")
-    for item in client.list_folder(client.folders["instances"]):
-        print(f"  {item.get('schema:name')}: {item['@id']}")
+    # =========================================================================
+    # Step 4: Download published resources (with real CEDAR IDs)
+    # =========================================================================
+    print()
+    print("=" * 60)
+    print("Step 4: Downloading from CEDAR")
+    print("=" * 60)
+    client.download_all(output_dir)
 
-    return all_valid
+    return fail_count == 0 and template_fail == 0
 
 
 if __name__ == "__main__":

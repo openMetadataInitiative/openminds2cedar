@@ -22,8 +22,15 @@ class Registry:
     def schemas(self) -> list[str]:
         """Schema paths like ['core.Subject', 'core.SubjectState', ...]."""
         result = []
-        for module, classes in self._schemas.get("schemas", {}).items():
-            result.extend(f"{module}.{c}" for c in classes)
+        for module, content in self._schemas.get("schemas", {}).items():
+            if isinstance(content, list):
+                # Flat list: sands: [BrainAtlas, ...]
+                result.extend(f"{module}.{c}" for c in content)
+            elif isinstance(content, dict):
+                # Nested categories: core: { research: [...], data: [...] }
+                for category, classes in content.items():
+                    if isinstance(classes, list):
+                        result.extend(f"{module}.{c}" for c in classes)
         return result
 
     def has_field(self, name: str) -> bool:

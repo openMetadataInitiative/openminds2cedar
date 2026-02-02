@@ -1,11 +1,12 @@
 # Registry
 
-Configuration for openMINDS schemas and controlled term fields.
+Configuration for openMINDS schemas, fields, and templates.
 
 ## Files
 
-- `schemas.yaml` - Which schemas to generate
-- `fields.yaml` - Controlled term mappings
+- `schemas.yaml` - Which schemas to generate (organized by module)
+- `fields.yaml` - Field UI config: `input_type`, `term_class`, `help_text`, `multiple`
+- `templates.yaml` - Template definitions with element cardinalities
 
 ## Usage
 
@@ -13,18 +14,9 @@ Configuration for openMINDS schemas and controlled term fields.
 from openminds2cedar.registry import Registry
 
 reg = Registry()
-reg.schemas              # ['core.Subject', 'core.SubjectState', ...]
-reg.has_field("species") # True (controlled term)
-reg.field("species")     # {"term_class": "controlled_terms.Species"}
+reg.schemas                    # ['core.Subject', 'sands.BrainAtlas', ...]
+reg.field("species")           # {"term_class": ..., "input_type": "list"}
+reg.template("subject-study")  # {"elements": [...], "description": ...}
 ```
 
-## Adding Fields
-
-Only controlled term fields need configuration:
-
-```yaml
-controlled_terms:
-  newField: controlled_terms.NewTermClass
-```
-
-Text fields are handled by default.
+See `fields.yaml` for available input types and configuration options.
