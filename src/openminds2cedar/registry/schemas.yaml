@@ -1,9 +1,5 @@
-# openMINDS schemas to generate CEDAR elements for
-# Organized by openMINDS module structure
-
 openminds_version: latest
 
-# Schemas to generate (use openMINDS class names)
 schemas:
   core:
     - Subject

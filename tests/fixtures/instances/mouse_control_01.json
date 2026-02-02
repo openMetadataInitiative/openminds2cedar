@@ -1,0 +1,109 @@
+{
+  "@context": {
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "pav": "http://purl.org/pav/",
+    "schema": "http://schema.org/",
+    "oslc": "http://open-services.net/ns/core#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "skos:notation": {
+      "@type": "xsd:string"
+    },
+    "pav:derivedFrom": {
+      "@type": "@id"
+    },
+    "pav:createdOn": {
+      "@type": "xsd:dateTime"
+    },
+    "pav:createdBy": {
+      "@type": "@id"
+    },
+    "pav:lastUpdatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "oslc:modifiedBy": {
+      "@type": "@id"
+    },
+    "schema:isBasedOn": {
+      "@type": "@id"
+    },
+    "schema:name": {
+      "@type": "xsd:string"
+    },
+    "schema:description": {
+      "@type": "xsd:string"
+    },
+    "subject": "https://openminds.om-i.org/types/Subject",
+    "subjectstate": "https://openminds.om-i.org/types/SubjectState"
+  },
+  "@id": null,
+  "schema:isBasedOn": "https://repo.metadatacenter.org/templates/2c7a3f43-4fe1-4c10-9519-1d3cd50215b3",
+  "schema:name": "Mouse_C57BL6_Control_01",
+  "schema:description": "Test mouse instance for workflow testing",
+  "pav:createdOn": "2026-02-02T10:01:48.041030+00:00",
+  "pav:lastUpdatedOn": "2026-02-02T10:01:48.041030+00:00",
+  "pav:createdBy": null,
+  "oslc:modifiedBy": null,
+  "subject": {
+    "@context": {},
+    "@id": "https://repo.metadatacenter.org/.tmp",
+    "biologicalSex": {
+      "@value": "male"
+    },
+    "internalIdentifier": {
+      "@value": "sub-mouse01"
+    },
+    "isPartOf": {
+      "@value": null
+    },
+    "lookupLabel": {
+      "@value": "Mouse 01 - C57BL/6J Control"
+    },
+    "species": {
+      "@value": "Mus musculus"
+    },
+    "studiedState": {
+      "@value": "baseline"
+    }
+  },
+  "subjectstate": {
+    "@context": {},
+    "@id": "https://repo.metadatacenter.org/.tmp",
+    "additionalRemarks": {
+      "@value": "Good signal quality"
+    },
+    "age": {
+      "@value": null
+    },
+    "ageCategory": {
+      "@value": "adult"
+    },
+    "attribute": {
+      "@value": null
+    },
+    "descendedFrom": {
+      "@value": null
+    },
+    "handedness": {
+      "@value": null
+    },
+    "internalIdentifier": {
+      "@value": "ses-baseline"
+    },
+    "lookupLabel": {
+      "@value": "Baseline Recording"
+    },
+    "pathology": {
+      "@value": null
+    },
+    "relativeTimeIndication": {
+      "@value": null
+    },
+    "weight": {
+      "@value": null
+    }
+  }
+}

@@ -1,74 +1,12 @@
-# Field configurations for openMINDS properties
-# Maps property names to their semantic URIs and controlled term classes
+# Controlled term fields - specify term_class for vocabulary lookup
+# Text/link fields don't need config - handled by default
 
-fields:
-  # Controlled term fields (vocabulary lookups)
-  species:
-    property_uri: https://openminds.om-i.org/props/species
-    term_class: controlled_terms.Species
-
-  biologicalSex:
-    property_uri: https://openminds.om-i.org/props/biologicalSex
-    term_class: controlled_terms.BiologicalSex
-
-  ageCategory:
-    property_uri: https://openminds.om-i.org/props/ageCategory
-    term_class: controlled_terms.AgeCategory
-
-  handedness:
-    property_uri: https://openminds.om-i.org/props/handedness
-    term_class: controlled_terms.Handedness
-
-  strain:
-    property_uri: https://openminds.om-i.org/props/strain
-    term_class: controlled_terms.Strain
-
-  phenotype:
-    property_uri: https://openminds.om-i.org/props/phenotype
-    term_class: controlled_terms.Phenotype
-
-  disease:
-    property_uri: https://openminds.om-i.org/props/disease
-    term_class: controlled_terms.Disease
-
-  diseaseModel:
-    property_uri: https://openminds.om-i.org/props/diseaseModel
-    term_class: controlled_terms.DiseaseModel
-
-  # Text fields
-  internalIdentifier:
-    property_uri: https://openminds.om-i.org/props/internalIdentifier
-    field_type: text
-
-  lookupLabel:
-    property_uri: https://openminds.om-i.org/props/lookupLabel
-    field_type: text
-
-  givenName:
-    property_uri: https://openminds.om-i.org/props/givenName
-    field_type: text
-
-  familyName:
-    property_uri: https://openminds.om-i.org/props/familyName
-    field_type: text
-
-  fullName:
-    property_uri: https://openminds.om-i.org/props/fullName
-    field_type: text
-
-  shortName:
-    property_uri: https://openminds.om-i.org/props/shortName
-    field_type: text
-
-  # Link fields (references to other entities)
-  studiedState:
-    property_uri: https://openminds.om-i.org/props/studiedState
-    field_type: link
-
-  isPartOf:
-    property_uri: https://openminds.om-i.org/props/isPartOf
-    field_type: link
-
-  affiliation:
-    property_uri: https://openminds.om-i.org/props/affiliation
-    field_type: link
+controlled_terms:
+  species: controlled_terms.Species
+  biologicalSex: controlled_terms.BiologicalSex
+  ageCategory: controlled_terms.AgeCategory
+  handedness: controlled_terms.Handedness
+  strain: controlled_terms.Strain
+  phenotype: controlled_terms.Phenotype
+  disease: controlled_terms.Disease
+  diseaseModel: controlled_terms.DiseaseModel

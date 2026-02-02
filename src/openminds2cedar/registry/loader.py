@@ -11,6 +11,7 @@ class Registry:
         self.dir = registry_dir or Path(__file__).parent
         self._schemas = yaml.safe_load((self.dir / "schemas.yaml").read_text())
         self._fields = yaml.safe_load((self.dir / "fields.yaml").read_text())
+        self._controlled_terms = self._fields.get("controlled_terms", {})
 
     @property
     def openminds_version(self) -> str:
@@ -24,13 +25,12 @@ class Registry:
             result.extend(f"{module}.{c}" for c in classes)
         return result
 
-    def field(self, name: str) -> dict:
-        """Get field config. Raises KeyError if not found."""
-        fields = self._fields.get("fields", {})
-        if name not in fields:
-            raise KeyError(f"Field '{name}' not in fields.yaml")
-        return fields[name]
-
     def has_field(self, name: str) -> bool:
-        """Check if field exists in registry."""
-        return name in self._fields.get("fields", {})
+        """Check if field is a controlled term."""
+        return name in self._controlled_terms
+
+    def field(self, name: str) -> dict:
+        """Get field config. Returns {"term_class": ...} for controlled terms."""
+        if name in self._controlled_terms:
+            return {"term_class": self._controlled_terms[name]}
+        raise KeyError(f"Field '{name}' not in registry")

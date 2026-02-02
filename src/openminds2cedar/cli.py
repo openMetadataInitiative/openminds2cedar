@@ -27,17 +27,17 @@ def cmd_generate(args):
 
 
 def cmd_template(args):
-    """Create template from elements. Uses real CEDAR IDs if available (synced elements), otherwise placeholder IDs."""
+    """Create template from elements. Uses element @id (URN or CEDAR URL) if available."""
     elements = []
     element_ids = []
     for i, path in enumerate(args.elements):
         with open(path) as f:
             elem = json.load(f)
             elements.append(elem)
-            # Use real ID if available (from synced elements), otherwise placeholder
-            real_id = elem.get("@id")
-            if real_id and real_id.startswith("https://"):
-                element_ids.append(real_id)
+            # Use element @id if available (URN or CEDAR URL), otherwise placeholder
+            elem_id = elem.get("@id")
+            if elem_id and (elem_id.startswith("https://") or elem_id.startswith("urn:")):
+                element_ids.append(elem_id)
             else:
                 element_ids.append(f"_:local_{i}")
 
@@ -167,7 +167,7 @@ def cmd_publish(args):
             result = client.upload_template(data, folder_id)
             resource_type = "template"
         else:
-            result = client.upload(data, folder_id)
+            result = client.upload(data, "element", folder_id)
             resource_type = "element"
 
         if result["success"]:

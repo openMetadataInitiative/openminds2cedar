@@ -1,35 +1,29 @@
-# Generators Module
+# Generators
 
 Create CEDAR elements and templates from openMINDS schemas.
 
-## CEDARElementGenerator
+## Element Generator
 
 ```python
 from openminds2cedar.generators import CEDARElementGenerator
 
-gen = CEDARElementGenerator(client=client)
+gen = CEDARElementGenerator()
 element = gen.generate("core.Subject")
-element = gen.generate_and_validate("core.SubjectState")  # Raises on invalid
+element = gen.generate("core.SubjectState")
 ```
 
-## CEDARTemplateGenerator
+## Template Generator
 
-Combines uploaded elements into a template.
+Combines elements into a template.
 
 ```python
 from openminds2cedar.generators import CEDARTemplateGenerator
-import json
 
-# Load synced elements
-elements, element_ids = [], []
-for name in ["subject", "subjectstate"]:
-    with open(f"data/cedar/elements/{name}.json") as f:
-        elem = json.load(f)
-    elements.append(elem)
-    element_ids.append(elem["@id"])
-
-# Generate and upload
 gen = CEDARTemplateGenerator()
-template = gen.generate(elements, element_ids, "my-template", "Description")
-client.upload_template(template)
+template = gen.generate(
+    elements=[subject_elem, state_elem],
+    element_ids=[subject_elem["@id"], state_elem["@id"]],
+    name="my-template",
+    description="Template description"
+)
 ```
