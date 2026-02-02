@@ -138,6 +138,9 @@ Registry files (schema/field config):
 - `registry/schemas.yaml` - Which openMINDS schemas to generate
 - `registry/fields.yaml` - Field mappings and controlled term classes
 
-## Future Work
+## Roadmap
 
-- **Declarative template creation**: Define templates in YAML with element references and complex options (cardinality, ordering, conditional fields)
+- [ ] **Schema coverage**: Expand beyond Subject/SubjectState to all openMINDS modules
+- [ ] **Declarative UI**: Configure field UI (inputType, help text) in `fields.yaml`
+- [ ] **Template composition**: Define templates in YAML with element references
+- [ ] **Generic converter**: Schema-driven conversion using `@context` types (not hardcoded)
