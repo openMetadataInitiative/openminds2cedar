@@ -15,16 +15,39 @@ def _type_prop(type_str: str) -> dict:
 class CEDARTemplateGenerator:
     """Generate CEDAR Templates from elements."""
 
-    def generate(self, elements: list[dict], element_ids: list[str], name: str, description: str = "") -> dict:
-        """Create a CEDAR Template embedding elements with their IDs."""
+    def generate(
+        self,
+        elements: list[dict],
+        element_ids: list[str],
+        name: str,
+        description: str = "",
+        cardinalities: list[bool] | None = None,
+    ) -> dict:
+        """Create a CEDAR Template embedding elements with their IDs.
+
+        Args:
+            cardinalities: List of booleans indicating if element allows multiple (array).
+                           Defaults to False for all elements.
+        """
         if len(elements) != len(element_ids):
             raise ValueError("elements and element_ids must have same length")
 
+        if cardinalities is None:
+            cardinalities = [False] * len(elements)
+
         properties = self._base_properties(elements)
-        for elem, eid in zip(elements, element_ids):
+        for elem, eid, multiple in zip(elements, element_ids, cardinalities):
             elem_copy = elem.copy()
             elem_copy["@id"] = eid
-            properties[elem["schema:name"]] = elem_copy
+            if multiple:
+                # Wrap element in array schema for multiple entries
+                properties[elem["schema:name"]] = {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": elem_copy,
+                }
+            else:
+                properties[elem["schema:name"]] = elem_copy
 
         required = [
             "@context", "@id", "schema:isBasedOn", "schema:name", "schema:description",

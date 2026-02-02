@@ -68,8 +68,17 @@ def create_instance_payload(
         schema_based_on = None
 
     # Build instance @context - merge element contexts into root
-    subject_element = template.get("properties", {}).get("subject", {})
-    subjectstate_element = template.get("properties", {}).get("subjectstate", {})
+    # Handle both single elements and array elements (multiple: true)
+    subject_prop = template.get("properties", {}).get("subject", {})
+    subjectstate_prop = template.get("properties", {}).get("subjectstate", {})
+
+    # Extract actual element (unwrap from array if needed)
+    subject_element = subject_prop.get("items", subject_prop) if subject_prop.get("type") == "array" else subject_prop
+    subjectstate_element = subjectstate_prop.get("items", subjectstate_prop) if subjectstate_prop.get("type") == "array" else subjectstate_prop
+
+    # Track which are arrays for instance building
+    subject_is_array = subject_prop.get("type") == "array"
+    subjectstate_is_array = subjectstate_prop.get("type") == "array"
 
     instance_context = {
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -93,6 +102,10 @@ def create_instance_payload(
         "subjectstate": subjectstate_element.get("openminds:sourceType", "https://openminds.om-i.org/types/SubjectState"),
     }
 
+    # Build element data, wrapping in array if element has multiple: true
+    subject_instance = _build_element_data(subject_element, subject_data)
+    subjectstate_instance = _build_element_data(subjectstate_element, subjectstate_data)
+
     return {
         "@context": instance_context,
         "@id": None,  # CEDAR assigns real ID on upload
@@ -103,8 +116,8 @@ def create_instance_payload(
         "pav:lastUpdatedOn": now,
         "pav:createdBy": None,
         "oslc:modifiedBy": None,
-        "subject": _build_element_data(subject_element, subject_data),
-        "subjectstate": _build_element_data(subjectstate_element, subjectstate_data),
+        "subject": [subject_instance] if subject_is_array else subject_instance,
+        "subjectstate": [subjectstate_instance] if subjectstate_is_array else subjectstate_instance,
     }
 
 

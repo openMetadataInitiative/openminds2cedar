@@ -1,22 +1,34 @@
 # Declarative template definitions
 # Each template combines multiple schema elements
+# Use 'multiple: true' to allow repeated entries (default: false)
+# 'name' field is used for CEDAR template naming (defaults to registry key)
 
 templates:
   subject-study:
-    description: "Template for subject-based studies"
+    name: "1subject-Nstates"
+    description: "Template for subject-based studies with multiple states"
     elements:
-      - core.Subject
-      - core.SubjectState
+      - schema: core.Subject
+        multiple: false
+      - schema: core.SubjectState
+        multiple: true
 
   tissue-sample-study:
-    description: "Template for tissue sample studies"
+    name: "1tissuesample-Nstates"
+    description: "Template for tissue sample studies with multiple states"
     elements:
-      - core.TissueSample
-      - core.TissueSampleState
+      - schema: core.TissueSample
+        multiple: false
+      - schema: core.TissueSampleState
+        multiple: true
 
   dataset-metadata:
-    description: "Template for dataset metadata"
+    name: "1dataset-Nversions-Npersons"
+    description: "Template for dataset metadata with multiple versions and authors"
     elements:
-      - core.Dataset
-      - core.DatasetVersion
-      - core.Person
+      - schema: core.Dataset
+        multiple: false
+      - schema: core.DatasetVersion
+        multiple: true
+      - schema: core.Person
+        multiple: true

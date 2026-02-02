@@ -24,24 +24,37 @@ class CEDARToOpenMINDSConverter:
         """Convert a CEDAR instance dict to openMINDS Collection."""
         collection = Collection()
 
-        subject_state = None
+        # Handle subjectstate - can be single object or array (multiple: true)
+        subject_states = []
         if subjectstate_data := instance.get("subjectstate"):
-            subject_state = self._convert_subject_state(subjectstate_data)
-            collection.add(subject_state)
+            if isinstance(subjectstate_data, list):
+                for item in subjectstate_data:
+                    state = self._convert_subject_state(item)
+                    subject_states.append(state)
+                    collection.add(state)
+            else:
+                state = self._convert_subject_state(subjectstate_data)
+                subject_states.append(state)
+                collection.add(state)
 
+        # Handle subject - can be single object or array
         if subject_data := instance.get("subject"):
-            collection.add(self._convert_subject(subject_data, subject_state))
+            if isinstance(subject_data, list):
+                for item in subject_data:
+                    collection.add(self._convert_subject(item, subject_states))
+            else:
+                collection.add(self._convert_subject(subject_data, subject_states))
 
         return collection
 
-    def _convert_subject(self, data: dict, subject_state=None) -> om.core.Subject:
+    def _convert_subject(self, data: dict, subject_states: list = None) -> om.core.Subject:
         """Convert subject element to openMINDS Subject."""
         return om.core.Subject(
             species=self._resolve_term(data, "species", om.controlled_terms.Species),
             biological_sex=self._resolve_term(data, "biologicalSex", om.controlled_terms.BiologicalSex),
             internal_identifier=self._get_value(data, "internalIdentifier"),
             lookup_label=self._get_value(data, "lookupLabel"),
-            studied_states=[subject_state] if subject_state else None,
+            studied_states=subject_states if subject_states else None,
         )
 
     def _convert_subject_state(self, data: dict) -> om.core.SubjectState:

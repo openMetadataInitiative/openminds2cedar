@@ -35,15 +35,19 @@ def cmd_template(args):
     if args.from_registry:
         # Generate from registry template definition
         tmpl_def = registry.template(args.from_registry)
-        name = args.from_registry
+        name = tmpl_def.get("name", args.from_registry)  # Use name field or fall back to key
         description = tmpl_def.get("description", "")
 
         elements = []
         element_ids = []
-        for schema in tmpl_def["elements"]:
+        cardinalities = []
+        for elem_def in tmpl_def["elements"]:
+            schema = elem_def["schema"]
+            multiple = elem_def.get("multiple", False)
             elem = element_generator.generate(schema)
             elements.append(elem)
             element_ids.append(elem["@id"])
+            cardinalities.append(multiple)
     else:
         # Generate from element files (original behavior)
         name = args.name
@@ -60,7 +64,8 @@ def cmd_template(args):
                 else:
                     element_ids.append(f"_:local_{i}")
 
-    template = template_generator.generate(elements, element_ids, name, description)
+    cardinalities = cardinalities if args.from_registry else [False] * len(elements)
+    template = template_generator.generate(elements, element_ids, name, description, cardinalities)
 
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)

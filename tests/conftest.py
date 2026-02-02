@@ -35,14 +35,15 @@ def converter():
 
 @pytest.fixture
 def generated_template(element_generator, template_generator):
-    """A complete generated template with Subject and SubjectState elements."""
+    """A complete generated template with Subject (single) and SubjectState (multiple)."""
     subject = element_generator.generate("core.Subject")
     subjectstate = element_generator.generate("core.SubjectState")
     return template_generator.generate(
         elements=[subject, subjectstate],
         element_ids=[subject["@id"], subjectstate["@id"]],
-        name="subject-study",
-        description="Test template"
+        name="1subject-Nstates",
+        description="Test template with cardinality",
+        cardinalities=[False, True],  # Subject=single, SubjectState=multiple
     )
 
 
