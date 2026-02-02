@@ -12,13 +12,14 @@ cp .env.example .env  # Edit with your CEDAR API key
 ## CLI Commands
 
 ```bash
-# Developer: generate, template, validate
+# Developer: generate elements and templates
 uv run openminds2cedar generate core.Subject
-uv run openminds2cedar template my-template output/elements/core/*.json
+uv run openminds2cedar template -r subject-study   # From registry definition
 uv run openminds2cedar validate output/
 
 # Publish when ready
 uv run openminds2cedar publish output/elements/
+uv run openminds2cedar publish output/templates/
 
 # Curator: convert by instance ID
 uv run openminds2cedar convert https://repo.metadatacenter.org/template-instances/xxx
@@ -31,31 +32,21 @@ uv run openminds2cedar sync     # Sync all CEDAR resources locally
 
 ### Developer Workflow
 
-Generate CEDAR elements from openMINDS schemas, validate, and publish:
+Generate CEDAR elements and templates, validate, and publish:
 
 ```bash
-# 1. Generate and validate elements
+# 1. Generate elements and templates from registry
 uv run openminds2cedar generate core.Subject
 uv run openminds2cedar generate core.SubjectState
-uv run openminds2cedar validate output/elements/
+uv run openminds2cedar template -r subject-study  # Uses registry/templates.yaml
 
-# 2. Publish elements to CEDAR
+# 2. Validate via CEDAR API
+uv run openminds2cedar validate output/
+
+# 3. Publish to CEDAR
 uv run openminds2cedar publish output/elements/
-
-# 3. Sync to get real element IDs
-uv run openminds2cedar sync -o data/cedar
-
-# 4. Create template using synced elements (with real IDs)
-uv run openminds2cedar template subject-study \
-    data/cedar/elements/subject.json \
-    data/cedar/elements/subjectstate.json
-
-# 5. Validate and publish template
-uv run openminds2cedar validate output/templates/
 uv run openminds2cedar publish output/templates/
 ```
-
-**Note**: Templates created from local elements use placeholder IDs and cannot be validated until elements are published. Use synced elements to create templates with real CEDAR IDs.
 
 ### Curator Workflow
 
@@ -134,13 +125,12 @@ You can also specify the folder directly via CLI:
 uv run openminds2cedar publish output/elements/ --folder https://repo.metadatacenter.org/folders/production-id
 ```
 
-Registry files (schema/field config):
+Registry files (schema/field/template config):
 - `registry/schemas.yaml` - Which openMINDS schemas to generate
 - `registry/fields.yaml` - Field mappings and controlled term classes
+- `registry/templates.yaml` - Template definitions with cardinality
 
 ## Roadmap
 
-- [ ] **Schema coverage**: Expand beyond Subject/SubjectState to all openMINDS modules
-- [ ] **Declarative UI**: Configure field UI (inputType, help text) in `fields.yaml`
-- [ ] **Template composition**: Define templates in YAML with element references
 - [ ] **Generic converter**: Schema-driven conversion using `@context` types (not hardcoded)
+- [ ] **Declarative UI**: Configure field UI (inputType, help text) in `fields.yaml`
