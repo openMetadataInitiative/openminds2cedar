@@ -15,8 +15,9 @@ src/openminds2cedar/converters/cedar_to_openminds.py
 src/openminds2cedar/converters/resolver.py
 src/openminds2cedar/generators/__init__.py
 src/openminds2cedar/generators/cedar_element.py
+src/openminds2cedar/generators/cedar_instance.py
 src/openminds2cedar/generators/cedar_template.py
 src/openminds2cedar/registry/__init__.py
 src/openminds2cedar/registry/loader.py
 tests/test_cedar_to_openminds.py
-tests/test_instance_creation.py
+tests/test_generators.py

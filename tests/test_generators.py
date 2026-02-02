@@ -1,5 +1,37 @@
 """Test CEDAR element and template generators."""
 
+import pytest
+
+
+# Schemas to test element generation
+CORE_SCHEMAS = [
+    "core.Subject",
+    "core.SubjectState",
+    "core.TissueSample",
+    "core.TissueSampleState",
+    "core.Dataset",
+    "core.DatasetVersion",
+    "core.Person",
+    "core.Organization",
+    "core.Software",
+    "core.Protocol",
+]
+
+
+@pytest.mark.parametrize("schema", CORE_SCHEMAS)
+def test_generate_core_elements(element_generator, schema):
+    """Test element generation for core schemas."""
+    element = element_generator.generate(schema)
+
+    # Has correct type and ID
+    assert element["@type"] == "https://schema.metadatacenter.org/core/TemplateElement"
+    assert element["@id"] == f"urn:openminds2cedar:element:{schema}"
+
+    # Has properties and UI
+    assert "properties" in element
+    assert "_ui" in element
+    assert len(element["_ui"]["order"]) > 0
+
 
 def test_generate_element(element_generator, registry):
     """Test element has correct structure, properties, UI, and metadata."""

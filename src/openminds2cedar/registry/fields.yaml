@@ -26,9 +26,6 @@ controlled_terms:
   experimentalApproach: controlled_terms.ExperimentalApproach
   technique: controlled_terms.Technique
 
-  # Organization/Person fields
-  affiliation: controlled_terms.OrganizationType
-
   # Anatomy fields
   anatomicalLocation: controlled_terms.UBERONParcellation  # Most common
 
