@@ -45,6 +45,23 @@ def test_elements_validate_via_cedar_api(element_generator, schema):
     assert result["valid"], f"CEDAR validation failed for {schema}: {result['errors']}"
 
 
+def test_template_from_registry(registry, element_generator, template_generator):
+    """Test template generation from registry definition."""
+    tmpl_def = registry.template("subject-study")
+
+    # Generate elements for each schema in template
+    elements = [element_generator.generate(s) for s in tmpl_def["elements"]]
+    element_ids = [e["@id"] for e in elements]
+
+    template = template_generator.generate(
+        elements, element_ids, "subject-study", tmpl_def.get("description", "")
+    )
+
+    assert template["@type"] == "https://schema.metadatacenter.org/core/Template"
+    assert "subject" in template["properties"]
+    assert "subjectstate" in template["properties"]
+
+
 def test_generate_element(element_generator, registry):
     """Test element has correct structure, properties, UI, and metadata."""
     element = element_generator.generate("core.Subject")

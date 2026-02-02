@@ -11,6 +11,7 @@ class Registry:
         self.dir = registry_dir or Path(__file__).parent
         self._schemas = yaml.safe_load((self.dir / "schemas.yaml").read_text())
         self._fields = yaml.safe_load((self.dir / "fields.yaml").read_text())
+        self._templates = yaml.safe_load((self.dir / "templates.yaml").read_text())
         self._controlled_terms = self._fields.get("controlled_terms", {})
 
     @property
@@ -34,3 +35,15 @@ class Registry:
         if name in self._controlled_terms:
             return {"term_class": self._controlled_terms[name]}
         raise KeyError(f"Field '{name}' not in registry")
+
+    @property
+    def templates(self) -> list[str]:
+        """Template names like ['subject-study', 'tissue-sample-study', ...]."""
+        return list(self._templates.get("templates", {}).keys())
+
+    def template(self, name: str) -> dict:
+        """Get template definition with description and elements list."""
+        templates = self._templates.get("templates", {})
+        if name not in templates:
+            raise KeyError(f"Template '{name}' not in registry")
+        return templates[name]

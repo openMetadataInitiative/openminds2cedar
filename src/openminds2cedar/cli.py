@@ -27,26 +27,44 @@ def cmd_generate(args):
 
 
 def cmd_template(args):
-    """Create template from elements. Uses element @id (URN or CEDAR URL) if available."""
-    elements = []
-    element_ids = []
-    for i, path in enumerate(args.elements):
-        with open(path) as f:
-            elem = json.load(f)
-            elements.append(elem)
-            # Use element @id if available (URN or CEDAR URL), otherwise placeholder
-            elem_id = elem.get("@id")
-            if elem_id and (elem_id.startswith("https://") or elem_id.startswith("urn:")):
-                element_ids.append(elem_id)
-            else:
-                element_ids.append(f"_:local_{i}")
+    """Create template from elements or registry definition."""
+    registry = Registry()
+    element_generator = CEDARElementGenerator(registry=registry)
+    template_generator = CEDARTemplateGenerator()
 
-    generator = CEDARTemplateGenerator()
-    template = generator.generate(elements, element_ids, args.name, args.description or "")
+    if args.from_registry:
+        # Generate from registry template definition
+        tmpl_def = registry.template(args.from_registry)
+        name = args.from_registry
+        description = tmpl_def.get("description", "")
+
+        elements = []
+        element_ids = []
+        for schema in tmpl_def["elements"]:
+            elem = element_generator.generate(schema)
+            elements.append(elem)
+            element_ids.append(elem["@id"])
+    else:
+        # Generate from element files (original behavior)
+        name = args.name
+        description = args.description or ""
+        elements = []
+        element_ids = []
+        for i, path in enumerate(args.elements):
+            with open(path) as f:
+                elem = json.load(f)
+                elements.append(elem)
+                elem_id = elem.get("@id")
+                if elem_id and (elem_id.startswith("https://") or elem_id.startswith("urn:")):
+                    element_ids.append(elem_id)
+                else:
+                    element_ids.append(f"_:local_{i}")
+
+    template = template_generator.generate(elements, element_ids, name, description)
 
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / f"{args.name}.json"
+    output_path = output_dir / f"{name}.json"
 
     with open(output_path, "w") as f:
         json.dump(template, f, indent=2)
@@ -185,9 +203,10 @@ def main():
     p.add_argument("-o", "--output", default="output/elements")
     p.set_defaults(func=cmd_generate)
 
-    p = sub.add_parser("template", help="Create template from elements")
-    p.add_argument("name", help="Template name")
-    p.add_argument("elements", nargs="+", help="Element JSON files")
+    p = sub.add_parser("template", help="Create template from elements or registry")
+    p.add_argument("name", nargs="?", help="Template name (required unless --from-registry)")
+    p.add_argument("elements", nargs="*", help="Element JSON files")
+    p.add_argument("-r", "--from-registry", help="Generate from registry template definition")
     p.add_argument("-d", "--description", help="Description")
     p.add_argument("-o", "--output", default="output/templates")
     p.set_defaults(func=cmd_template)

@@ -1,0 +1,22 @@
+# Declarative template definitions
+# Each template combines multiple schema elements
+
+templates:
+  subject-study:
+    description: "Template for subject-based studies"
+    elements:
+      - core.Subject
+      - core.SubjectState
+
+  tissue-sample-study:
+    description: "Template for tissue sample studies"
+    elements:
+      - core.TissueSample
+      - core.TissueSampleState
+
+  dataset-metadata:
+    description: "Template for dataset metadata"
+    elements:
+      - core.Dataset
+      - core.DatasetVersion
+      - core.Person
