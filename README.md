@@ -130,9 +130,10 @@ Registry files (schema/field/template config):
 - `registry/fields.yaml` - Field mappings and controlled term classes
 - `registry/templates.yaml` - Template definitions with cardinality
 
-## Roadmap
+## Status
 
-- [x] **Generic converter**: Schema-driven conversion using `@context` types and property introspection
-- [x] **Declarative UI**: Configure field UI (inputType, help text, cardinality) in `fields.yaml`
-- [ ] **CLI**: Command-line interface for generate/validate/publish/convert workflows
-- [x] **Property annotations**: Add openMINDS property URIs to CEDAR element `@context`
+This project is in early development and has not been fully validated. Interfaces and output formats may change.
+
+## License
+
+This project is licensed under [MIT](LICENSE).
