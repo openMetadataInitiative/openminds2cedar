@@ -130,9 +130,28 @@ Registry files (schema/field/template config):
 - `registry/fields.yaml` - Field mappings and controlled term classes
 - `registry/templates.yaml` - Template definitions with cardinality
 
+## Testing
+
+```bash
+uv run pytest
+```
+
+Tests marked `cedar` validate against the live CEDAR API and are skipped when `CEDAR_API_KEY` is not set. CI runs them using repository secrets.
+
+## Known Limitations
+
+- Only the schemas and fields configured in `registry/` are supported.
+- Quantitative values (e.g. `weight`) are generated as plain numeric fields, so units are not captured.
+- Instance generation (`CEDARInstanceGenerator`) currently supports the `subject-study` template only.
+- `scripts/publish_test_resources.py` clears the configured CEDAR folders before uploading. Only point it at test folders.
+
 ## Status
 
-This project is in early development and has not been fully validated. Interfaces and output formats may change.
+Pre-alpha (v0.0.1). This project is in early development and has not been fully validated. Interfaces and output formats may change.
+
+## Citation
+
+If you use this software, please cite it using the metadata in [CITATION.cff](CITATION.cff).
 
 ## License
 
