@@ -1,6 +1,11 @@
 # openminds2cedar
 
+[![Tests](https://github.com/openMetadataInitiative/openminds2cedar/actions/workflows/tests.yml/badge.svg)](https://github.com/openMetadataInitiative/openminds2cedar/actions/workflows/tests.yml)
+
 Generate CEDAR template elements from openMINDS schemas and convert filled instances back to openMINDS-LD.
+
+> [!WARNING]
+> **Pre-alpha (v0.0.1).** This is an early prototype. Generated elements, templates and output formats, as well as the CLI and Python API, may change. See [Known Limitations](#known-limitations).
 
 ## Quick Start
 
