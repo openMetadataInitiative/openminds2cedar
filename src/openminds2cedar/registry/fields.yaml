@@ -27,6 +27,9 @@
 #     input_type: <type>  # optional, auto-detected based on cardinality + count
 #     multiple: true/false  # optional, override openMINDS schema cardinality
 #     help_text: "Help text shown to user"  # optional
+#     number_type: xsd:decimal  # optional, numeric only (xsd:decimal/integer/long/int/double/float)
+#     temporal_type: xsd:date  # optional, temporal only (xsd:date/dateTime/time)
+#     temporal_granularity: day  # optional, temporal only (year/month/day/hour/minute/second/decimalSecond)
 #
 # Use snake_case field names (matching openMINDS Python API)
 

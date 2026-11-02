@@ -168,7 +168,32 @@ class CEDARElementGenerator:
         if "term_class" in field_config:
             self._add_controlled_term(field, field_config, multiple)
 
+        # Numeric and temporal fields need a datatype constraint
+        self._add_value_type(field, field_config)
+
         return field
+
+    def _add_value_type(self, field: dict, field_config: dict) -> None:
+        """Add datatype constraints required by CEDAR for numeric/temporal fields.
+
+        Args:
+            field: CEDAR field dict to modify
+            field_config: Registry config with input_type and optional
+                number_type, temporal_type, temporal_granularity
+        """
+        input_type = field["_ui"]["inputType"]
+        if input_type == "numeric":
+            field["_valueConstraints"]["numberType"] = field_config.get("number_type", "xsd:decimal")
+        elif input_type == "temporal":
+            field["_valueConstraints"]["temporalType"] = field_config.get("temporal_type", "xsd:date")
+            field["_ui"]["temporalGranularity"] = field_config.get("temporal_granularity", "day")
+        else:
+            return
+
+        # Typed values carry a single datatype IRI in @type
+        field["properties"]["@type"] = {"type": "string", "format": "uri"}
+        if "required" in field:
+            field["required"].append("@type")
 
     def _add_controlled_term(self, field: dict, field_config: dict, multiple: bool) -> None:
         """Add controlled term options to field.
