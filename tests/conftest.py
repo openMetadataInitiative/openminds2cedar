@@ -1,6 +1,9 @@
 """Shared test fixtures."""
 
+import os
+
 import pytest
+from dotenv import load_dotenv
 
 from openminds2cedar.generators import (
     CEDARElementGenerator,
@@ -16,6 +19,18 @@ from tests.fixtures import (
     sample_cedar_instance,
     instance_with_nulls,
 )
+
+load_dotenv()
+
+
+def pytest_collection_modifyitems(config, items):
+    """Skip tests that call the live CEDAR API when no API key is configured."""
+    if os.getenv("CEDAR_API_KEY"):
+        return
+    skip_cedar = pytest.mark.skip(reason="CEDAR_API_KEY not set")
+    for item in items:
+        if "cedar" in item.keywords:
+            item.add_marker(skip_cedar)
 
 
 # --- Generators ---

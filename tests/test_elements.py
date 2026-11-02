@@ -29,6 +29,7 @@ def test_generate_core_elements(element_generator, schema):
     assert len(element["_ui"]["order"]) > 0
 
 
+@pytest.mark.cedar
 @pytest.mark.parametrize("schema", CORE_SCHEMAS)
 def test_elements_validate_via_cedar_api(element_generator, schema):
     """Test that generated elements validate via CEDAR API."""

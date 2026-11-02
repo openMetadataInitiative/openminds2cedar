@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Run tests
+        # Tests marked `cedar` are skipped when CEDAR_API_KEY is empty (e.g. on forks)
+        env:
+          CEDAR_API_KEY: ${{ secrets.CEDAR_API_KEY }}
+          CEDAR_FOLDER_ELEMENTS: ${{ secrets.CEDAR_FOLDER_ELEMENTS }}
+          CEDAR_FOLDER_TEMPLATES: ${{ secrets.CEDAR_FOLDER_TEMPLATES }}
+          CEDAR_FOLDER_INSTANCES: ${{ secrets.CEDAR_FOLDER_INSTANCES }}
+        run: uv run pytest -v -rs

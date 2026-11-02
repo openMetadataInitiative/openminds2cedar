@@ -41,6 +41,9 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+    "cedar: calls the live CEDAR API (skipped when CEDAR_API_KEY is not set)",
+]
 
 [tool.uv]
 package = true

@@ -9,6 +9,7 @@ from openminds2cedar.generators import CEDARInstanceGenerator
 REGISTRY_TEMPLATES = ["subject-study", "tissue-sample-study", "dataset-metadata"]
 
 
+@pytest.mark.cedar
 @pytest.mark.parametrize("template_name", REGISTRY_TEMPLATES)
 def test_template_from_registry(registry, element_generator, template_generator, template_name):
     """Test template generation and validation from registry definition."""
@@ -78,6 +79,7 @@ def test_template_cardinality(element_generator, template_generator):
     assert template["properties"]["subjectstate"]["items"]["@id"] == subjectstate["@id"]
 
 
+@pytest.mark.cedar
 def test_instance_workflow(generated_template, mock_subject_data, mock_subjectstate_data, converter):
     """Test instance creation, CEDAR validation, and openMINDS conversion."""
     client = CEDARClient()
