@@ -1,9 +1,23 @@
 [project]
 name = "openminds2cedar"
-version = "0.1.0"
-description = "Generate CEDAR template elements from openMINDS schemas"
+version = "0.0.1"
+description = "Generate CEDAR templates from openMINDS schemas and convert CEDAR instances back to openMINDS JSON-LD"
 readme = "README.md"
 requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Reema Gupta", email = "gupta@bio.lmu.de" },
+]
+keywords = ["openMINDS", "CEDAR", "metadata", "EBRAINS", "neuroscience", "FAIR", "JSON-LD"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+]
 dependencies = [
     "jsonschema>=4.20.0",
     "openminds>=0.4.0",
@@ -11,6 +25,10 @@ dependencies = [
     "pyyaml>=6.0.3",
     "requests>=2.32.5",
 ]
+
+[project.urls]
+Repository = "https://github.com/openMetadataInitiative/openminds2cedar"
+Issues = "https://github.com/openMetadataInitiative/openminds2cedar/issues"
 
 [project.scripts]
 openminds2cedar = "openminds2cedar.cli:main"
