@@ -3,29 +3,26 @@
 from datetime import datetime, timezone
 
 
-def _text_value(val: str | None) -> dict:
-    """Create text field value structure."""
-    return {"@value": val if val else None}
+def _field_value(field_def: dict, val: str | None) -> dict:
+    """Create field value structure, typed for numeric/temporal fields."""
+    value = {"@value": str(val) if val not in (None, "") else None}
+    constraints = field_def.get("_valueConstraints", {})
+    datatype = constraints.get("numberType") or constraints.get("temporalType")
+    if datatype:
+        value["@type"] = datatype
+    return value
 
 
 def _build_element_context(element: dict) -> dict:
-    """Extract field->IRI mappings from element properties for @context."""
-    ctx = {}
-    for field_name, field_def in element.get("properties", {}).items():
-        if field_name.startswith("@"):
-            continue
-        # Use openMINDS property URI if available, otherwise schema.org
-        prop_uri = field_def.get("@context", {}).get("openminds:propertyId")
-        if not prop_uri:
-            prop_uri = f"https://openminds.om-i.org/props/{field_name}"
-        ctx[field_name] = prop_uri
-    return ctx
+    """Extract field->IRI mappings from the element's @context schema."""
+    context_props = element.get("properties", {}).get("@context", {}).get("properties", {})
+    return {field_name: spec["enum"][0] for field_name, spec in context_props.items() if spec.get("enum")}
 
 
 def _build_element_data(element: dict, data: dict) -> dict:
     """Build element instance data from template element and values."""
     result = {
-        "@context": {},  # Empty context for element instances
+        "@context": _build_element_context(element),
         "@id": "https://repo.metadatacenter.org/.tmp",  # Temp URI, CEDAR assigns real ID
     }
 
@@ -33,7 +30,7 @@ def _build_element_data(element: dict, data: dict) -> dict:
         field_def = element.get("properties", {}).get(field_name)
         if not field_def:
             continue
-        result[field_name] = _text_value(data.get(field_name))
+        result[field_name] = _field_value(field_def, data.get(field_name))
 
     return result
 
